@@ -7,8 +7,7 @@
   <title>{% block title %}GlowCare{% endblock %}</title>
 
   <link rel="stylesheet" href="{% static 'style.css' %}">
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -177,10 +176,12 @@
 
         {% if user.is_authenticated %}
           <a href="{% url 'profile' %}" class="gc-avatar-link" title="Профиль">
-            {% if user.profile_image %}
+            {% if user.profile_image and user.profile_image.name and user.profile_image.name != 'default/default.png' %}
               <img src="{{ user.profile_image.url }}" alt="avatar" class="gc-avatar-img">
             {% else %}
-              <div class="gc-avatar-placeholder">👤</div>
+              <div class="gc-avatar-placeholder">
+                {{ user.username|first|upper }}
+              </div>
             {% endif %}
           </a>
         {% else %}
@@ -649,8 +650,12 @@
     border-radius: 50% !important;
     overflow: hidden !important;
     border: 1px solid #dddddd !important;
-    display: block !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     flex-shrink: 0 !important;
+    text-decoration: none !important;
+    background: #111111 !important;
   }
 
   .gc-avatar-img {
@@ -658,6 +663,21 @@
     height: 100% !important;
     object-fit: cover !important;
     display: block !important;
+  }
+
+  .gc-avatar-placeholder {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 50% !important;
+    background: #111111 !important;
+    color: #ffffff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    font-family: "Manrope", Arial, sans-serif !important;
+    text-transform: uppercase !important;
   }
 
   .gc-dark-toggle {

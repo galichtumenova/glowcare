@@ -13,7 +13,7 @@
       <aside class="pf-sidebar">
 
         <div class="pf-user-card">
-          {% if user.profile_image %}
+          {% if user.profile_image and user.profile_image.name and user.profile_image.name != 'default/default.png' %}
             <img src="{{ user.profile_image.url }}" alt="Аватар" class="pf-avatar">
           {% else %}
             <div class="pf-avatar-init">{{ user.username|first|upper }}</div>
@@ -116,7 +116,7 @@
 
           <div class="pf-photo-row">
             <div class="pf-photo-preview">
-              {% if user.profile_image %}
+              {% if user.profile_image and user.profile_image.name and user.profile_image.name != 'default/default.png' %}
                 <img src="{{ user.profile_image.url }}" alt="Фото профиля">
               {% else %}
                 <span>{{ user.username|first|upper }}</span>
@@ -134,7 +134,7 @@
                   <polyline points="21 15 16 10 5 21"/>
                 </svg>
                 <span id="pf-fname">
-                  {% if user.profile_image %}
+                  {% if user.profile_image and user.profile_image.name and user.profile_image.name != 'default/default.png' %}
                     Сменить фото
                   {% else %}
                     Загрузить фото
@@ -206,9 +206,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f4f4f4;
-  color: #111;
-  font-size: 26px;
+  background: #111;
+  color: #fff;
+  font-size: 28px;
   font-weight: 700;
 }
 
@@ -449,7 +449,8 @@
   border-radius: 4px;
   overflow: hidden;
   flex-shrink: 0;
-  background: #f4f4f4;
+  background: #111;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -462,9 +463,9 @@
 }
 
 .pf-photo-preview span {
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 700;
-  color: #111;
+  color: #fff;
 }
 
 .pf-photo-info {
@@ -567,10 +568,10 @@
     flex-direction: column;
   }
 
-.pf-head h1 {
-  font-size: 20px;
-  font-weight: 200;
-}
+  .pf-head h1 {
+    font-size: 30px;
+    font-weight: 400;
+  }
 
   .pf-submit {
     width: 100%;
