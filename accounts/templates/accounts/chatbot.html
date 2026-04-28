@@ -1,0 +1,838 @@
+{% extends 'accounts/base.html' %}
+{% block title %}Чат-бот{% endblock %}
+
+{% block content %}
+
+<style>
+  .chat-page {
+    width: min(980px, calc(100% - 48px));
+    margin: 38px auto 70px;
+    color: #111;
+  }
+
+  .chat-hero {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .chat-label {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #777;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .chat-hero h1 {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.045em;
+  }
+
+  .chat-hero p {
+    max-width: 520px;
+    margin: 14px auto 0;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .chat-shell {
+    background: #fff;
+    border: 1px solid #e9e9e9;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.05);
+  }
+
+  .chat-head {
+    padding: 18px 22px;
+    border-bottom: 1px solid #eeeeee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    background: #fafafa;
+  }
+
+  .chat-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .chat-avatar-main {
+    width: 38px;
+    height: 38px;
+    border-radius: 14px;
+    background: #111;
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+
+  .chat-title h2 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .chat-title span {
+    display: block;
+    margin-top: 2px;
+    color: #888;
+    font-size: 12px;
+  }
+
+  .chat-status {
+    color: #777;
+    font-size: 12px;
+  }
+
+  .chat-status::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    margin-right: 7px;
+    border-radius: 50%;
+    background: #111;
+    display: inline-block;
+  }
+
+  .chat-body {
+    padding: 22px;
+    min-height: 370px;
+  }
+
+  .chat-message-box {
+    height: 360px;
+    min-height: 360px;
+    max-height: 360px;
+    overflow-y: auto;
+    padding-right: 8px;
+    scroll-behavior: smooth;
+  }
+
+  .chat-message-box::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .chat-message-box::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .chat-message-box::-webkit-scrollbar-thumb {
+    background: #d8d8d8;
+    border-radius: 999px;
+  }
+
+  .chat-message-box::-webkit-scrollbar-thumb:hover {
+    background: #bdbdbd;
+  }
+
+  .chat-line {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .chat-line.user {
+    justify-content: flex-end;
+  }
+
+  .chat-small-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    display: grid;
+    place-items: center;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  .chat-bubble {
+    max-width: 72%;
+    padding: 13px 15px;
+    border-radius: 18px;
+    border: 1px solid #e8e8e8;
+    background: #fafafa;
+    color: #333;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .chat-line.user .chat-bubble {
+    background: #111;
+    border-color: #111;
+    color: #fff;
+  }
+
+  .chat-time {
+    display: block;
+    margin-top: 7px;
+    color: #999;
+    font-size: 11px;
+  }
+
+  .chat-line.user .chat-time {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .speak-btn {
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    background: #fff;
+    color: #111;
+    border-radius: 999px;
+    padding: 8px 13px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .speak-btn:hover {
+    background: #111;
+    color: #fff;
+  }
+
+  .chat-form {
+    padding: 18px 22px 22px;
+    border-top: 1px solid #eeeeee;
+    background: #fff;
+  }
+
+  .chat-input-row {
+    display: grid;
+    grid-template-columns: 1fr 54px;
+    gap: 10px;
+  }
+
+  .chat-input-main {
+    width: 100%;
+    height: 54px;
+    border: 1px solid #dddddd;
+    border-radius: 18px;
+    background: #fff;
+    padding: 0 17px;
+    color: #111;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s ease;
+  }
+
+  .chat-input-main::placeholder {
+    color: #aaa;
+  }
+
+  .chat-input-main:focus {
+    border-color: #111;
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
+  }
+
+  .chat-send-btn {
+    width: 54px;
+    height: 54px;
+    border: none;
+    border-radius: 18px;
+    background: #111;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.2s ease;
+  }
+
+  .chat-send-btn:hover {
+    background: #333;
+  }
+
+  .chat-send-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .voice-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .voice-btn {
+    min-height: 35px;
+    border: 1px solid #ddd;
+    background: #fafafa;
+    color: #111;
+    border-radius: 999px;
+    padding: 0 14px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .voice-btn:hover {
+    background: #111;
+    color: #fff;
+  }
+
+  .voice-status {
+    margin-top: 12px;
+    border: 1px solid #eeeeee;
+    background: #fafafa;
+    border-radius: 16px;
+    padding: 12px 14px;
+    color: #777;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .chat-history-card {
+    margin-top: 24px;
+    background: #fff;
+    border: 1px solid #e9e9e9;
+    border-radius: 24px;
+    overflow: hidden;
+  }
+
+  .chat-history-head {
+    padding: 18px 22px;
+    border-bottom: 1px solid #eeeeee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    background: #fff;
+  }
+
+  .chat-history-head h3 {
+    margin: 0;
+    color: #111;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: -0.035em;
+  }
+
+  .clear-btn {
+    min-height: 36px;
+    border: 1px solid #ddd;
+    border-radius: 999px;
+    background: #fff;
+    color: #111;
+    padding: 0 15px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .clear-btn:hover {
+    background: #111;
+    color: #fff;
+  }
+
+  .history-list {
+    max-height: 320px;
+    overflow-y: auto;
+    padding: 18px 22px 22px;
+    display: grid;
+    gap: 10px;
+  }
+
+  .history-item {
+    position: relative;
+    padding: 14px 48px 14px 14px;
+    border: 1px solid #eeeeee;
+    border-radius: 16px;
+    background: #fafafa;
+  }
+
+  .history-item p {
+    margin: 0;
+    color: #333;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .history-item p + p {
+    margin-top: 8px;
+  }
+
+  .delete-history-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    background: #fff;
+    color: #111;
+    cursor: pointer;
+    font-size: 17px;
+    line-height: 1;
+  }
+
+  .delete-history-btn:hover {
+    background: #111;
+    color: #fff;
+  }
+
+  .history-empty {
+    padding: 20px 22px;
+    color: #777;
+    font-size: 14px;
+  }
+
+  @media (max-width: 720px) {
+    .chat-page {
+      width: calc(100% - 28px);
+    }
+
+    .chat-bubble {
+      max-width: 86%;
+    }
+
+    .chat-history-head {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .chat-input-row {
+      grid-template-columns: 1fr;
+    }
+
+    .chat-send-btn {
+      width: 100%;
+    }
+  }
+</style>
+
+<div class="chat-page">
+
+  <section class="chat-hero">
+    <span class="chat-label">GlowCare assistant</span>
+    <h1>AI консультант</h1>
+
+  </section>
+
+  <section class="chat-shell" id="chatWidget">
+
+    <div class="chat-head">
+      <div class="chat-title">
+        <div class="chat-avatar-main">AI</div>
+        <div>
+          <h2>GlowCare bot</h2>
+          <span>Персональный помощник по уходу</span>
+        </div>
+      </div>
+
+      <div class="chat-status">online</div>
+    </div>
+
+    <div class="chat-body">
+      <div class="chat-message-box" id="chatMessages">
+        <div class="chat-line bot">
+          <div class="chat-small-avatar">♡</div>
+          <div class="chat-bubble">
+            Здравствуйте! Я AI-консультант GlowCare. Напишите вопрос об уходе за кожей.
+            <span class="chat-time">сейчас</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form method="POST" id="chatForm" class="chat-form" action="javascript:void(0)">
+      {% csrf_token %}
+
+      <div class="chat-input-row">
+        <input
+          type="text"
+          id="message"
+          name="message"
+          class="chat-input-main"
+          placeholder="Напишите ваш вопрос..."
+          required
+        >
+
+        <button type="submit" class="chat-send-btn" aria-label="Отправить">→</button>
+      </div>
+
+      <div class="voice-actions">
+        <button type="button" id="startVoiceBtn" class="voice-btn">Начать говорить</button>
+        <button type="button" id="stopVoiceBtn" class="voice-btn">Остановить</button>
+      </div>
+
+      <div id="voiceStatus" class="voice-status">
+        Нажмите «Начать говорить», чтобы использовать голосовой ввод.
+      </div>
+    </form>
+
+  </section>
+
+  <div class="chat-history-card">
+    <div class="chat-history-head">
+      <h3>Последние сообщения</h3>
+
+      <button type="button" id="clearHistoryBtn" class="clear-btn">
+        Очистить всё
+      </button>
+    </div>
+
+    <div class="history-list" id="historyList">
+      {% if chat_history %}
+        {% for item in chat_history %}
+          <div class="history-item" data-index="{{ forloop.counter0 }}">
+            <button type="button" class="delete-history-btn" data-index="{{ forloop.counter0 }}">×</button>
+            <p><strong>{{ item.user }}:</strong> {{ item.message }}</p>
+            <p><strong>Бот:</strong> {{ item.bot }}</p>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="history-empty" id="historyEmpty">Пока сообщений нет.</div>
+      {% endif %}
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+  const chatForm = document.getElementById("chatForm");
+  const chatMessages = document.getElementById("chatMessages");
+  const historyList = document.getElementById("historyList");
+  const messageInput = document.getElementById("message");
+  const clearHistoryBtn = document.getElementById("clearHistoryBtn");
+
+  let isSending = false;
+
+  function escapeHTML(text) {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function scrollChatToBottom() {
+    if (chatMessages) {
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+  }
+
+  function addChatMessage(type, text) {
+    const safeText = escapeHTML(text);
+
+    const line = document.createElement("div");
+    line.className = "chat-line " + type;
+
+    if (type === "user") {
+      line.innerHTML = `
+        <div class="chat-bubble">
+          <strong>Вы:</strong> ${safeText}
+          <span class="chat-time">сейчас</span>
+        </div>
+        <div class="chat-small-avatar">👤</div>
+      `;
+    } else {
+      line.innerHTML = `
+        <div class="chat-small-avatar">♡</div>
+        <div class="chat-bubble">
+          <div class="latestBotReply"><strong>Бот:</strong> ${safeText}</div>
+          <span class="chat-time">сейчас</span>
+          <button type="button" class="speak-btn">Озвучить ответ</button>
+        </div>
+      `;
+    }
+
+    chatMessages.appendChild(line);
+
+    requestAnimationFrame(() => {
+      scrollChatToBottom();
+    });
+  }
+
+  function addHistoryItem(user, message, bot, index) {
+    if (!historyList) return;
+
+    const empty = document.getElementById("historyEmpty");
+    if (empty) empty.remove();
+
+    const safeUser = escapeHTML(user);
+    const safeMessage = escapeHTML(message);
+    const safeBot = escapeHTML(bot);
+
+    const item = document.createElement("div");
+    item.className = "history-item";
+    item.dataset.index = index;
+
+    item.innerHTML = `
+      <button type="button" class="delete-history-btn" data-index="${index}">×</button>
+      <p><strong>${safeUser}:</strong> ${safeMessage}</p>
+      <p><strong>Бот:</strong> ${safeBot}</p>
+    `;
+
+    historyList.appendChild(item);
+  }
+
+  if (chatForm) {
+    chatForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (isSending) return false;
+
+      const message = messageInput.value.trim();
+      if (!message) return false;
+
+      isSending = true;
+
+      const sendBtn = chatForm.querySelector(".chat-send-btn");
+
+      if (sendBtn) {
+        sendBtn.disabled = true;
+        sendBtn.textContent = "...";
+      }
+
+      addChatMessage("user", message);
+
+      messageInput.value = "";
+      messageInput.blur();
+
+      fetch("{% url 'chatbot' %}", {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": csrfToken,
+          "X-Requested-With": "XMLHttpRequest",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: new URLSearchParams({
+          message: message
+        })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Server error");
+        }
+
+        return response.json();
+      })
+      .then(data => {
+        if (data.success) {
+          addChatMessage("bot", data.bot_reply);
+          addHistoryItem(data.user, data.user_message, data.bot_reply, data.index);
+        } else {
+          addChatMessage("bot", "Ошибка ответа. Попробуйте ещё раз.");
+        }
+      })
+      .catch(() => {
+        addChatMessage("bot", "Ошибка соединения. Попробуйте ещё раз.");
+      })
+      .finally(() => {
+        isSending = false;
+
+        if (sendBtn) {
+          sendBtn.disabled = false;
+          sendBtn.textContent = "→";
+        }
+
+        messageInput.focus({ preventScroll: true });
+      });
+
+      return false;
+    });
+  }
+
+  if (clearHistoryBtn) {
+    clearHistoryBtn.addEventListener("click", function () {
+      fetch("{% url 'chatbot' %}", {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": csrfToken,
+          "X-Requested-With": "XMLHttpRequest",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: new URLSearchParams({
+          clear_all: "1"
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success && historyList) {
+          historyList.innerHTML = `<div class="history-empty" id="historyEmpty">Пока сообщений нет.</div>`;
+        }
+      });
+    });
+  }
+
+  document.addEventListener("click", function (e) {
+    const deleteBtn = e.target.closest(".delete-history-btn");
+
+    if (deleteBtn) {
+      const index = deleteBtn.dataset.index;
+
+      fetch("{% url 'chatbot' %}", {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": csrfToken,
+          "X-Requested-With": "XMLHttpRequest",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: new URLSearchParams({
+          delete_index: index
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          deleteBtn.closest(".history-item").remove();
+
+          if (historyList && historyList.querySelectorAll(".history-item").length === 0) {
+            historyList.innerHTML = `<div class="history-empty" id="historyEmpty">Пока сообщений нет.</div>`;
+          }
+        }
+      });
+    }
+
+    const speakBtn = e.target.closest(".speak-btn");
+
+    if (speakBtn) {
+      const bubble = speakBtn.closest(".chat-bubble");
+      const text = bubble.innerText
+        .replace("Бот:", "")
+        .replace("сейчас", "")
+        .replace("Озвучить ответ", "")
+        .trim();
+
+      speakText(text);
+    }
+  });
+
+  let availableVoices = [];
+
+  function loadVoices() {
+    if ("speechSynthesis" in window) {
+      availableVoices = window.speechSynthesis.getVoices();
+    }
+  }
+
+  if ("speechSynthesis" in window) {
+    loadVoices();
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  }
+
+  function getBestRussianVoice() {
+    const voices = availableVoices.length
+      ? availableVoices
+      : window.speechSynthesis.getVoices();
+
+    return (
+      voices.find(voice => voice.lang === "ru-RU" && voice.name.toLowerCase().includes("female")) ||
+      voices.find(voice => voice.lang === "ru-RU" && voice.name.toLowerCase().includes("elena")) ||
+      voices.find(voice => voice.lang === "ru-RU" && voice.name.toLowerCase().includes("microsoft")) ||
+      voices.find(voice => voice.lang === "ru-RU") ||
+      voices.find(voice => voice.lang && voice.lang.startsWith("ru")) ||
+      null
+    );
+  }
+
+  function speakText(text) {
+    if (!("speechSynthesis" in window)) {
+      alert("Озвучка не поддерживается в этом браузере.");
+      return;
+    }
+
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    const bestVoice = getBestRussianVoice();
+
+    if (bestVoice) {
+      utterance.voice = bestVoice;
+    }
+
+    utterance.lang = "ru-RU";
+    utterance.rate = 0.88;
+    utterance.pitch = 1.08;
+    utterance.volume = 1;
+
+    window.speechSynthesis.speak(utterance);
+  }
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const startVoiceBtn = document.getElementById("startVoiceBtn");
+  const stopVoiceBtn = document.getElementById("stopVoiceBtn");
+  const voiceStatus = document.getElementById("voiceStatus");
+
+  let recognition = null;
+  let isRecording = false;
+
+  if (!SpeechRecognition) {
+    if (voiceStatus) voiceStatus.textContent = "Ваш браузер не поддерживает голосовой ввод.";
+    if (startVoiceBtn) startVoiceBtn.disabled = true;
+    if (stopVoiceBtn) stopVoiceBtn.disabled = true;
+  } else {
+    recognition = new SpeechRecognition();
+    recognition.lang = "ru-RU";
+    recognition.interimResults = false;
+    recognition.continuous = false;
+    recognition.maxAlternatives = 1;
+
+    if (startVoiceBtn) {
+      startVoiceBtn.addEventListener("click", () => {
+        if (!isRecording) {
+          try {
+            recognition.start();
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      });
+    }
+
+    if (stopVoiceBtn) {
+      stopVoiceBtn.addEventListener("click", () => {
+        if (recognition && isRecording) {
+          recognition.stop();
+        }
+      });
+    }
+
+    recognition.onstart = () => {
+      isRecording = true;
+      if (voiceStatus) voiceStatus.textContent = "Слушаю... Говорите сейчас.";
+    };
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      messageInput.value = transcript;
+      if (voiceStatus) voiceStatus.textContent = "Распознано: " + transcript;
+    };
+
+    recognition.onerror = (event) => {
+      isRecording = false;
+      if (voiceStatus) voiceStatus.textContent = "Ошибка голосового ввода: " + event.error;
+    };
+
+    recognition.onend = () => {
+      isRecording = false;
+      if (voiceStatus && voiceStatus.textContent === "Слушаю... Говорите сейчас.") {
+        voiceStatus.textContent = "Голосовой ввод остановлен.";
+      }
+    };
+  }
+
+  window.addEventListener("load", function () {
+    scrollChatToBottom();
+  });
+</script>
+
+{% endblock %}

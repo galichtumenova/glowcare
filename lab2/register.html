@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GlowCare — Регистрация</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container nav">
+      <div class="logo">GlowCare</div>
+
+      <nav class="menu">
+        <a href="index.html">Главная</a>
+        <a href="catalog.html">Каталог</a>
+        <a href="tips.html">Советы</a>
+        <a href="register.html" class="active">Регистрация</a>
+      </nav>
+
+      <div id="userPanel" class="user-panel"></div>
+    </div>
+  </header>
+
+  <main class="page-main">
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h1>Регистрация</h1>
+          <p class="subtitle">
+            Создайте аккаунт, чтобы получать персональные подборки ухода и специальные предложения.
+          </p>
+        </div>
+
+        <div class="register-layout">
+          <section class="form-card">
+            <h2>Создать аккаунт</h2>
+
+            <form id="registerForm" novalidate>
+              <div class="form-group">
+                <label for="name">Имя</label>
+                <input type="text" id="name" placeholder="Введите ваше имя" />
+                <small class="help-text">Введите имя не короче 2 символов.</small>
+                <div class="error-text" id="nameError"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="example@mail.com" />
+                <small class="help-text">Укажите действующий адрес электронной почты.</small>
+                <div class="error-text" id="emailError"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" placeholder="Введите пароль" />
+                <small class="help-text">Минимум 6 символов.</small>
+                <div class="error-text" id="passwordError"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="satisfaction">Насколько удобна форма?</label>
+                <select id="satisfaction">
+                  <option value="5">5 — очень удобно</option>
+                  <option value="4">4 — удобно</option>
+                  <option value="3">3 — нормально</option>
+                  <option value="2">2 — есть трудности</option>
+                  <option value="1">1 — неудобно</option>
+                </select>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                <button type="button" class="btn btn-secondary" id="downloadJsonBtn">Скачать JSON</button>
+              </div>
+
+              <div class="form-message" id="formMessage">
+                Заполните форму и нажмите кнопку регистрации.
+              </div>
+            </form>
+          </section>
+
+          <section class="info-card">
+            <h2>Уже есть аккаунт?</h2>
+
+            <form id="loginForm" novalidate>
+              <div class="form-group">
+                <label for="loginEmail">Email</label>
+                <input type="email" id="loginEmail" placeholder="example@mail.com" />
+              </div>
+
+              <div class="form-group">
+                <label for="loginPassword">Пароль</label>
+                <input type="password" id="loginPassword" placeholder="Введите пароль" />
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Войти</button>
+              </div>
+            </form>
+
+            <ul class="custom-list">
+              <li>Быстрый доступ к любимым товарам</li>
+              <li>Персональные рекомендации по уходу</li>
+              <li>Сохранение понравившихся средств</li>
+              <li>Участие в акциях и скидках</li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <h3>GlowCare</h3>
+        <p>Магазин уходовой косметики с удобной регистрацией.</p>
+      </div>
+
+      <div>
+        <h4>Навигация</h4>
+        <a href="index.html">Главная</a>
+        <a href="catalog.html">Каталог</a>
+        <a href="tips.html">Советы</a>
+        <a href="register.html">Регистрация</a>
+      </div>
+
+      <div>
+        <h4>Контакты</h4>
+        <p>Email: info@glowcare.kz</p>
+        <p>Instagram: @glowcare.shop</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

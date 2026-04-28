@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GlowCare — Магазин уходовой косметики</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container nav">
+      <div class="logo">GlowCare</div>
+
+      <nav class="menu">
+        <a href="index.html" class="active">Главная</a>
+        <a href="catalog.html">Каталог</a>
+        <a href="tips.html">Советы</a>
+        <a href="register.html">Регистрация</a>
+      </nav>
+
+      <div id="userPanel" class="user-panel"></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-text">
+          <span class="tag">GlowCare</span>
+          <h1>Уходовая косметика для здоровой и сияющей кожи</h1>
+          <p>
+            Подберите идеальный уход для лица: очищение, тонизация,
+            сыворотки, кремы и SPF. Удобная навигация, аккуратный дизайн
+            и приятный интерфейс для комфортного просмотра.
+          </p>
+          <div class="hero-buttons">
+            <a href="catalog.html" class="btn btn-primary">Перейти в каталог</a>
+            <a href="register.html" class="btn btn-secondary">Зарегистрироваться</a>
+          </div>
+        </div>
+
+        <div class="hero-cards">
+          <div class="hero-card focus-zone" data-zone="Популярная категория: очищение">
+            <div class="emoji">🫧</div>
+            <h3>Очищение</h3>
+            <p>Пенки, гели и мягкие средства для умывания</p>
+          </div>
+
+          <div class="hero-card focus-zone" data-zone="Популярная категория: увлажнение">
+            <div class="emoji">💧</div>
+            <h3>Увлажнение</h3>
+            <p>Сыворотки и кремы для ежедневного ухода</p>
+          </div>
+
+          <div class="hero-card focus-zone" data-zone="Популярная категория: защита">
+            <div class="emoji">☀️</div>
+            <h3>Защита SPF</h3>
+            <p>Надёжная защита кожи от солнечных лучей</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features section">
+      <div class="container">
+        <div class="section-head">
+          <span class="tag">Преимущества</span>
+          <h2>Почему выбирают GlowCare</h2>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <h3>Натуральные компоненты</h3>
+            <p>Мы подбираем средства с мягкими и эффективными формулами.</p>
+          </div>
+
+          <div class="feature-card">
+            <h3>Уход для разных типов кожи</h3>
+            <p>Средства для сухой, комбинированной, чувствительной и жирной кожи.</p>
+          </div>
+
+          <div class="feature-card">
+            <h3>Приятный выбор</h3>
+            <p>Каталог составлен так, чтобы нужный товар находился быстро и удобно.</p>
+          </div>
+
+          <div class="feature-card">
+            <h3>Удобная регистрация</h3>
+            <p>Можно создать аккаунт и сохранить данные для дальнейшего использования.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="products section">
+      <div class="container">
+        <div class="section-head">
+          <span class="tag">Популярные товары</span>
+          <h2>Хиты продаж</h2>
+        </div>
+
+        <div class="products-grid">
+          <article class="product-card focus-zone" data-zone="Карточка товара: пенка">
+            <div class="product-icon">🧴</div>
+            <h3>Soft Foam Cleanser</h3>
+            <p>Мягкая очищающая пенка для ежедневного использования</p>
+            <strong>4 500 ₸</strong>
+          </article>
+
+          <article class="product-card focus-zone" data-zone="Карточка товара: сыворотка">
+            <div class="product-icon">✨</div>
+            <h3>Aqua Glow Serum</h3>
+            <p>Сыворотка для сияния и глубокого увлажнения</p>
+            <strong>6 900 ₸</strong>
+          </article>
+
+          <article class="product-card focus-zone" data-zone="Карточка товара: крем">
+            <div class="product-icon">🌿</div>
+            <h3>Calm Repair Cream</h3>
+            <p>Успокаивающий крем для чувствительной кожи</p>
+            <strong>5 800 ₸</strong>
+          </article>
+
+          <article class="product-card focus-zone" data-zone="Карточка товара: SPF">
+            <div class="product-icon">☀️</div>
+            <h3>Daily Sun Shield SPF50</h3>
+            <p>Лёгкий солнцезащитный крем на каждый день</p>
+            <strong>6 300 ₸</strong>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="analysis section">
+      <div class="container analysis-box">
+        <div>
+          <span class="tag">Интерактив</span>
+          <h2>Зоны внимания на странице</h2>
+          <p>
+            Нажмите кнопку, чтобы подсветить самые заметные элементы
+            на главной странице сайта.
+          </p>
+        </div>
+
+        <div class="analysis-controls">
+          <button class="btn btn-primary" id="highlightBtn">Показать зоны внимания</button>
+          <div class="result-box" id="resultBox">Пока анализ не запущен.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <h3>GlowCare</h3>
+        <p>Магазин уходовой косметики с современным и удобным интерфейсом.</p>
+      </div>
+
+      <div>
+        <h4>Навигация</h4>
+        <a href="index.html">Главная</a>
+        <a href="catalog.html">Каталог</a>
+        <a href="tips.html">Советы</a>
+        <a href="register.html">Регистрация</a>
+      </div>
+
+      <div>
+        <h4>Контакты</h4>
+        <p>Email: info@glowcare.kz</p>
+        <p>Instagram: @glowcare.shop</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

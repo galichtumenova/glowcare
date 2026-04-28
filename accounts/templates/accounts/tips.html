@@ -1,0 +1,1113 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block title %}Советы{% endblock %}
+
+{% block content %}
+
+<main class="tips-page-new">
+
+  <!-- ===== BASIC ROUTINE ===== -->
+  <section class="tips-routine-section">
+    <div class="tips-shell">
+
+      <div class="routine-order-head">
+        <span class="tips-label">Daily routine</span>
+
+        <h2>Порядок ухода за кожей</h2>
+
+        <p>
+          Лёгкая последовательность ежедневного ухода: от очищения до защиты SPF.
+        </p>
+      </div>
+
+      <div class="routine-order-list">
+
+        <div class="routine-order-item focus-zone" data-zone="Совет: очищение">
+          <span>01</span>
+          <div>
+            <h3>Очищение</h3>
+            <p>Удаляет загрязнения, себум и остатки макияжа.</p>
+          </div>
+        </div>
+
+        <div class="routine-order-item focus-zone" data-zone="Совет: тонизация">
+          <span>02</span>
+          <div>
+            <h3>Тонизация</h3>
+            <p>Возвращает коже комфорт после умывания.</p>
+          </div>
+        </div>
+
+        <div class="routine-order-item focus-zone" data-zone="Совет: сыворотка">
+          <span>03</span>
+          <div>
+            <h3>Сыворотка</h3>
+            <p>Работает с задачами кожи: сияние, увлажнение, восстановление.</p>
+          </div>
+        </div>
+
+        <div class="routine-order-item focus-zone" data-zone="Совет: крем">
+          <span>04</span>
+          <div>
+            <h3>Крем</h3>
+            <p>Смягчает кожу и удерживает влагу.</p>
+          </div>
+        </div>
+
+        <div class="routine-order-item focus-zone" data-zone="Совет: SPF">
+          <span>05</span>
+          <div>
+            <h3>SPF</h3>
+            <p>Защищает кожу от солнца и фотостарения.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== IMAGE + TEXT ===== -->
+  <section class="tips-editorial">
+    <div class="tips-shell">
+
+      <div class="editorial-grid">
+        <div class="editorial-image">
+          <img src="{% static 'images/tips-routine.jpg' %}" alt="Уход за кожей">
+        </div>
+
+        <div class="editorial-content">
+          <span class="tips-label">Minimal care</span>
+          <h2>Уход не должен быть сложным</h2>
+          <p>
+            Главное — подобрать средства под свой тип кожи и использовать их регулярно.
+            Даже базовые этапы могут дать красивый результат.
+          </p>
+
+          <div class="editorial-points">
+            <div>
+              <strong>01</strong>
+              <span>Не пересушивайте кожу очищением</span>
+            </div>
+            <div>
+              <strong>02</strong>
+              <span>Увлажняйте кожу каждый день</span>
+            </div>
+            <div>
+              <strong>03</strong>
+              <span>Используйте SPF утром</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== ARTICLES ===== -->
+  <section class="tips-section">
+    <div class="tips-shell">
+
+      <div class="tips-split-head">
+        <div>
+          <span class="tips-label">Beauty blog</span>
+          <h2>Полезные статьи</h2>
+        </div>
+        <p>
+          Короткие темы, которые помогут лучше понять ежедневный уход за кожей.
+        </p>
+      </div>
+
+      <div class="articles-grid">
+
+        <article class="article-card">
+          <img src="{% static 'images/tips-cleaning.jpg' %}" alt="Очищение">
+          <div>
+            <span>Очищение</span>
+            <h3>Почему важно очищать кожу каждый день?</h3>
+            <p>Очищение убирает загрязнения, себум и помогает уходу работать лучше.</p>
+          </div>
+        </article>
+
+        <article class="article-card tall">
+          <img src="{% static 'images/tips-mask.jpg' %}" alt="Маски">
+          <div>
+            <span>Маски</span>
+            <h3>Как часто использовать маски?</h3>
+            <p>Маски дают дополнительное увлажнение, но не заменяют базовый уход.</p>
+          </div>
+        </article>
+
+        <article class="article-card">
+          <img src="{% static 'images/tips-glow.jpg' %}" alt="Сияние кожи">
+          <div>
+            <span>Glow skin</span>
+            <h3>Что помогает коже сиять?</h3>
+            <p>Мягкое очищение, увлажнение и SPF — основа ровного сияния.</p>
+          </div>
+        </article>
+
+        <article class="article-card">
+          <img src="{% static 'images/tips-science.jpg' %}" alt="Тип кожи">
+          <div>
+            <span>Skin type</span>
+            <h3>Почему важно знать свой тип кожи?</h3>
+            <p>Так легче выбрать подходящие текстуры и избежать лишней жирности или сухости.</p>
+          </div>
+        </article>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="tips-section">
+    <div class="tips-shell">
+
+      <div class="tips-split-head faq-head">
+        <div>
+          <span class="tips-label">FAQ</span>
+          <h2>Частые вопросы</h2>
+        </div>
+        <p>
+          Короткие ответы на вопросы, которые чаще всего появляются при подборе ухода.
+        </p>
+      </div>
+
+      <div class="faq-grid">
+
+        <details class="faq-item">
+          <summary>Нужно ли использовать SPF каждый день?</summary>
+          <p>Да. SPF нужен даже в пасмурную погоду, потому что ультрафиолет влияет на кожу круглый год.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Можно ли жирной коже использовать крем?</summary>
+          <p>Да. Жирной коже тоже нужно увлажнение, просто лучше выбирать лёгкие текстуры.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Что делать, если кожа стянута после умывания?</summary>
+          <p>Лучше заменить очищение на более мягкое средство и добавить увлажняющий крем.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Сколько этапов нужно для базы?</summary>
+          <p>Очищение, увлажнение и SPF утром — уже хорошая база для ежедневного ухода.</p>
+        </details>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== QUIZ CAROUSEL ===== -->
+  <section class="tips-quiz-section" id="skinQuiz">
+    <div class="tips-shell">
+
+      <div class="quiz-layout">
+
+        <div class="quiz-image">
+          <img src="{% static 'images/tips-quiz.jpg' %}" alt="Skin Quiz">
+        </div>
+
+        <div class="quiz-card-new">
+
+          <div class="quiz-head-new">
+            <span class="tips-label">Skin Quiz</span>
+            <h2>Определите свой тип кожи</h2>
+            <p>
+              Отвечайте по одному вопросу. В конце появится результат и рекомендации.
+            </p>
+          </div>
+
+          <form id="skinQuizForm" class="skin-quiz-form-new">
+
+            <div class="quiz-progress">
+              <span id="quizStepText">1 / 8</span>
+              <div>
+                <i id="quizProgressBar"></i>
+              </div>
+            </div>
+
+            <div class="quiz-slider">
+
+              <div class="quiz-slide active">
+                <h3>1. Как кожа ощущается после умывания?</h3>
+                <label><input type="radio" name="q1" value="dry"> Стянутая и сухая</label>
+                <label><input type="radio" name="q1" value="normal"> Комфортная</label>
+                <label><input type="radio" name="q1" value="oily"> Быстро появляется жирный блеск</label>
+                <label><input type="radio" name="q1" value="combo"> Сухо на щеках, но жирно в Т-зоне</label>
+              </div>
+
+              <div class="quiz-slide">
+                <h3>2. Как кожа выглядит через несколько часов без ухода?</h3>
+                <label><input type="radio" name="q2" value="dry"> Тусклая, сухая</label>
+                <label><input type="radio" name="q2" value="normal"> Свежая и ровная</label>
+                <label><input type="radio" name="q2" value="oily"> Блестящая по всему лицу</label>
+                <label><input type="radio" name="q2" value="combo"> Блестит только лоб, нос и подбородок</label>
+              </div>
+
+              <div class="quiz-slide">
+                <h3>3. Как часто появляются воспаления?</h3>
+                <label><input type="radio" name="q3" value="dry"> Редко, но бывают шелушения</label>
+                <label><input type="radio" name="q3" value="normal"> Очень редко</label>
+                <label><input type="radio" name="q3" value="oily"> Часто</label>
+                <label><input type="radio" name="q3" value="combo"> Иногда, в основном в Т-зоне</label>
+              </div>
+
+              <div class="quiz-slide">
+                <h3>4. Какие поры у вас чаще всего?</h3>
+                <label><input type="radio" name="q4" value="dry"> Почти незаметные</label>
+                <label><input type="radio" name="q4" value="normal"> Небольшие</label>
+                <label><input type="radio" name="q4" value="oily"> Расширенные по всему лицу</label>
+                <label><input type="radio" name="q4" value="combo"> Расширенные только в Т-зоне</label>
+              </div>
+
+              <div class="quiz-slide">
+                <h3>5. Как кожа реагирует на новый уход?</h3>
+                <label><input type="radio" name="q5" value="dry"> Может щипать и шелушиться</label>
+                <label><input type="radio" name="q5" value="normal"> Обычно спокойно</label>
+                <label><input type="radio" name="q5" value="oily"> Может быстрее жирниться</label>
+                <label><input type="radio" name="q5" value="combo"> Реакция разная на разных зонах</label>
+              </div>
+
+              <div class="quiz-slide">
+                <h3>6. Какой финиш кожи у вас чаще всего?</h3>
+                <label><input type="radio" name="q6" value="dry"> Матовый, иногда шелушится</label>
+                <label><input type="radio" name="q6" value="normal"> Ровный и естественный</label>
+                <label><input type="radio" name="q6" value="oily"> Сильный блеск почти везде</label>
+                <label><input type="radio" name="q6" value="combo"> Блеск только в Т-зоне</label>
+              </div>
+
+              <div class="quiz-slide">
+                <h3>7. Что чаще всего беспокоит кожу?</h3>
+                <label><input type="radio" name="q7" value="dry"> Сухость и чувствительность</label>
+                <label><input type="radio" name="q7" value="normal"> Иногда усталый вид</label>
+                <label><input type="radio" name="q7" value="oily"> Жирный блеск и воспаления</label>
+                <label><input type="radio" name="q7" value="combo"> Разные проблемы на разных участках</label>
+              </div>
+
+              <div class="quiz-slide">
+                <h3>8. Какая текстура средств вам комфортнее?</h3>
+                <label><input type="radio" name="q8" value="dry"> Питательная и кремовая</label>
+                <label><input type="radio" name="q8" value="normal"> Лёгкая, но увлажняющая</label>
+                <label><input type="radio" name="q8" value="oily"> Гелевая, очень лёгкая</label>
+                <label><input type="radio" name="q8" value="combo"> Разная: лёгкая для Т-зоны, плотнее для щёк</label>
+              </div>
+
+            </div>
+
+            <div class="quiz-actions-new">
+              <button type="button" class="quiz-nav-btn" onclick="prevQuizSlide()">Назад</button>
+              <button type="button" class="quiz-nav-btn dark" id="quizNextBtn" onclick="nextQuizSlide()">Далее</button>
+              <button type="button" class="quiz-nav-btn dark finish" id="quizFinishBtn" onclick="calculateSkinType()">Узнать результат</button>
+            </div>
+
+          </form>
+
+          <div id="quizResult" class="quiz-result-new" style="display: none;"></div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<style>
+/* ===== TIPS PAGE ===== */
+
+.tips-page-new {
+  background: #ffffff;
+  color: #111111;
+}
+
+.tips-shell {
+  max-width: 1280px;
+  width: calc(100% - 96px);
+  margin: 0 auto;
+}
+
+.tips-label {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #777777;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* ===== ROUTINE ORDER BLOCK ===== */
+
+.tips-routine-section {
+  padding: 42px 0 56px;
+  background: #ffffff;
+}
+
+.routine-order-head {
+  max-width: 720px;
+  margin: 0 auto 46px;
+  text-align: center;
+}
+
+.routine-order-head .tips-label {
+  margin-bottom: 12px;
+}
+
+.routine-order-head h2 {
+  margin: 0;
+  color: #111111;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(34px, 4vw, 52px);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.055em;
+  text-transform: uppercase;
+}
+
+.routine-order-head p {
+  max-width: 520px;
+  margin: 16px auto 0;
+  color: #666666;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.65;
+}
+
+.routine-order-list {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+  border-top: 1px solid #dedede;
+}
+
+.routine-order-list::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #111111;
+  transform: scaleX(0.18);
+  transform-origin: left;
+}
+
+.routine-order-item {
+  position: relative;
+  min-height: 210px;
+  padding: 34px 24px 10px;
+  border-right: 1px solid #e8e8e8;
+  transition: 0.25s ease;
+}
+
+.routine-order-item:first-child {
+  border-left: 1px solid #e8e8e8;
+}
+
+.routine-order-item::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 24px;
+  width: 11px;
+  height: 11px;
+  background: #111111;
+  border-radius: 50%;
+}
+
+.routine-order-item:hover {
+  background: #f8f8f7;
+}
+
+.routine-order-item span {
+  display: block;
+  margin-bottom: 34px;
+  color: #999999;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+.routine-order-item h3 {
+  margin: 0 0 12px;
+  color: #111111;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.routine-order-item p {
+  max-width: 210px;
+  margin: 0;
+  color: #666666;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+/* ===== COMMON SECTIONS ===== */
+
+.tips-section,
+.tips-editorial,
+.tips-quiz-section {
+  padding: 48px 0;
+}
+
+.tips-split-head {
+  margin-bottom: 24px;
+  display: grid;
+  grid-template-columns: 0.75fr 1fr;
+  gap: 34px;
+  align-items: end;
+}
+
+.tips-split-head h2,
+.editorial-content h2,
+.quiz-head-new h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  color: #111111;
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+}
+
+.tips-split-head p,
+.editorial-content p,
+.quiz-head-new p {
+  max-width: 500px;
+  margin: 0;
+  color: #666666;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ===== EDITORIAL ===== */
+
+.editorial-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 18px;
+}
+
+.editorial-image {
+  min-height: 520px;
+  background: #f7f7f6;
+  overflow: hidden;
+}
+
+.editorial-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.editorial-content {
+  padding: 48px;
+  background: #f7f7f6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.editorial-content p {
+  margin-top: 18px;
+}
+
+.editorial-points {
+  margin-top: 28px;
+  display: grid;
+  gap: 12px;
+}
+
+.editorial-points div {
+  padding-top: 12px;
+  border-top: 1px solid #dddddd;
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  gap: 14px;
+}
+
+.editorial-points strong {
+  color: #111111;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 21px;
+  font-weight: 500;
+}
+
+.editorial-points span {
+  color: #555555;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ===== ARTICLES ===== */
+
+.articles-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.article-card {
+  min-height: 320px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #f7f7f6;
+  overflow: hidden;
+}
+
+.article-card.tall {
+  grid-row: span 2;
+  grid-template-columns: 1fr;
+}
+
+.article-card img {
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  object-fit: cover;
+}
+
+.article-card.tall img {
+  min-height: 410px;
+}
+
+.article-card div {
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.article-card span {
+  margin-bottom: 12px;
+  color: #888888;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.article-card h3 {
+  margin: 0;
+  color: #111111;
+  font-size: 21px;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.article-card p {
+  margin: 14px 0 0;
+  color: #666666;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ===== FAQ ===== */
+
+.faq-head {
+  margin-bottom: 20px;
+}
+
+.faq-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.faq-item {
+  background: #f7f7f6;
+  border: 1px solid #eeeeee;
+  padding: 18px 20px;
+}
+
+.faq-item summary {
+  cursor: pointer;
+  color: #111111;
+  font-size: 14px;
+  font-weight: 800;
+  list-style: none;
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary::after {
+  content: "+";
+  float: right;
+}
+
+.faq-item[open] summary::after {
+  content: "−";
+}
+
+.faq-item p {
+  margin: 14px 0 0;
+  color: #666666;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ===== QUIZ CAROUSEL ===== */
+
+.quiz-layout {
+  display: grid;
+  grid-template-columns: 0.78fr 1.22fr;
+  gap: 18px;
+  align-items: stretch;
+}
+
+.quiz-image {
+  position: sticky;
+  top: 24px;
+  min-height: 620px;
+  background: #f7f7f6;
+  overflow: hidden;
+}
+
+.quiz-image img {
+  width: 100%;
+  height: 100%;
+  min-height: 620px;
+  object-fit: cover;
+}
+
+.quiz-card-new {
+  padding: 42px;
+  background: #f7f7f6;
+  border: 1px solid #eeeeee;
+}
+
+.quiz-head-new {
+  margin-bottom: 24px;
+}
+
+.quiz-head-new p {
+  margin-top: 14px;
+}
+
+.skin-quiz-form-new {
+  display: block;
+}
+
+.quiz-progress {
+  margin-bottom: 22px;
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 14px;
+  align-items: center;
+}
+
+.quiz-progress span {
+  color: #777777;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.quiz-progress div {
+  height: 3px;
+  background: #dddddd;
+  overflow: hidden;
+}
+
+.quiz-progress i {
+  display: block;
+  width: 12.5%;
+  height: 100%;
+  background: #111111;
+  transition: 0.25s ease;
+}
+
+.quiz-slider {
+  position: relative;
+  overflow: hidden;
+  min-height: 340px;
+}
+
+.quiz-slide {
+  display: none;
+  animation: quizFade 0.25s ease;
+}
+
+.quiz-slide.active {
+  display: block;
+}
+
+@keyframes quizFade {
+  from {
+    opacity: 0;
+    transform: translateX(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.quiz-slide h3 {
+  margin: 0 0 18px;
+  color: #111111;
+  font-size: 22px;
+  line-height: 1.25;
+}
+
+.quiz-slide label {
+  min-height: 48px;
+  margin-bottom: 10px;
+  padding: 13px 14px;
+  background: #ffffff;
+  border: 1px solid #e6e6e6;
+  display: flex;
+  align-items: center;
+  color: #555555;
+  font-size: 14px;
+  line-height: 1.45;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.quiz-slide label:hover {
+  border-color: #111111;
+  color: #111111;
+}
+
+.quiz-slide input[type="radio"] {
+  margin-right: 10px;
+  accent-color: #111111;
+}
+
+.quiz-actions-new {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.quiz-nav-btn {
+  min-width: 120px;
+  height: 44px;
+  border: 1px solid #111111;
+  background: transparent;
+  color: #111111;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.quiz-nav-btn.dark {
+  background: #111111;
+  color: #ffffff;
+}
+
+.quiz-nav-btn:hover {
+  background: #111111;
+  color: #ffffff;
+}
+
+.quiz-nav-btn.finish {
+  display: none;
+}
+
+.quiz-result-new {
+  margin-top: 28px;
+  padding: 28px;
+  background: #ffffff;
+  border: 1px solid #dedede;
+  color: #333333;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.quiz-result-new h3 {
+  margin: 0 0 12px;
+  color: #111111;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+
+.quiz-result-new ul {
+  margin: 14px 0 0;
+  padding-left: 18px;
+}
+
+.quiz-result-new li {
+  margin-bottom: 7px;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 1100px) {
+  .routine-order-list {
+    grid-template-columns: 1fr;
+    border-top: none;
+    border-left: 1px solid #dedede;
+  }
+
+  .routine-order-list::before {
+    display: none;
+  }
+
+  .routine-order-item {
+    min-height: auto;
+    padding: 22px 24px 22px 44px;
+    border-right: none;
+    border-bottom: 1px solid #e8e8e8;
+  }
+
+  .routine-order-item:first-child {
+    border-left: none;
+  }
+
+  .routine-order-item::before {
+    top: 28px;
+    left: -6px;
+  }
+
+  .routine-order-item span {
+    margin-bottom: 18px;
+  }
+
+  .routine-order-item p {
+    max-width: 100%;
+  }
+
+  .tips-split-head,
+  .editorial-grid,
+  .quiz-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .quiz-image {
+    position: relative;
+    min-height: 440px;
+  }
+
+  .quiz-image img {
+    min-height: 440px;
+  }
+}
+
+@media (max-width: 800px) {
+  .tips-shell {
+    width: calc(100% - 28px);
+  }
+
+  .articles-grid,
+  .faq-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .article-card,
+  .article-card.tall {
+    grid-template-columns: 1fr;
+  }
+
+  .editorial-content,
+  .quiz-card-new {
+    padding: 28px 22px;
+  }
+
+  .routine-order-head h2,
+  .tips-split-head h2,
+  .editorial-content h2,
+  .quiz-head-new h2 {
+    font-size: 31px;
+  }
+}
+
+@media (max-width: 520px) {
+  .tips-split-head {
+    gap: 14px;
+  }
+
+  .routine-order-head p,
+  .routine-order-item p,
+  .tips-split-head p,
+  .editorial-content p,
+  .quiz-head-new p {
+    font-size: 13px;
+  }
+
+  .quiz-slide h3 {
+    font-size: 18px;
+  }
+
+  .quiz-slide label {
+    font-size: 13px;
+  }
+
+  .quiz-actions-new {
+    flex-direction: column;
+  }
+
+  .quiz-nav-btn {
+    width: 100%;
+  }
+}
+</style>
+
+<script>
+  let currentQuizSlide = 0;
+
+  function getQuizSlides() {
+    return Array.from(document.querySelectorAll('.quiz-slide'));
+  }
+
+  function updateQuizCarousel() {
+    const slides = getQuizSlides();
+    const stepText = document.getElementById('quizStepText');
+    const progressBar = document.getElementById('quizProgressBar');
+    const nextBtn = document.getElementById('quizNextBtn');
+    const finishBtn = document.getElementById('quizFinishBtn');
+
+    slides.forEach((slide, index) => {
+      slide.classList.toggle('active', index === currentQuizSlide);
+    });
+
+    if (stepText) {
+      stepText.textContent = `${currentQuizSlide + 1} / ${slides.length}`;
+    }
+
+    if (progressBar) {
+      progressBar.style.width = `${((currentQuizSlide + 1) / slides.length) * 100}%`;
+    }
+
+    if (currentQuizSlide === slides.length - 1) {
+      nextBtn.style.display = 'none';
+      finishBtn.style.display = 'inline-block';
+    } else {
+      nextBtn.style.display = 'inline-block';
+      finishBtn.style.display = 'none';
+    }
+  }
+
+  function nextQuizSlide() {
+    const slides = getQuizSlides();
+    const currentSlide = slides[currentQuizSlide];
+    const selected = currentSlide.querySelector('input[type="radio"]:checked');
+
+    if (!selected) {
+      alert('Пожалуйста, выберите один вариант.');
+      return;
+    }
+
+    if (currentQuizSlide < slides.length - 1) {
+      currentQuizSlide++;
+      updateQuizCarousel();
+    }
+  }
+
+  function prevQuizSlide() {
+    if (currentQuizSlide > 0) {
+      currentQuizSlide--;
+      updateQuizCarousel();
+    }
+  }
+
+  function calculateSkinType() {
+    const questions = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8'];
+
+    const scores = {
+      dry: 0,
+      normal: 0,
+      oily: 0,
+      combo: 0
+    };
+
+    for (let q of questions) {
+      const selected = document.querySelector(`input[name="${q}"]:checked`);
+
+      if (!selected) {
+        alert('Пожалуйста, ответьте на все вопросы.');
+        return;
+      }
+
+      scores[selected.value]++;
+    }
+
+    let resultType = '';
+    let resultText = '';
+    let recommendations = [];
+
+    const maxScore = Math.max(scores.dry, scores.normal, scores.oily, scores.combo);
+
+    if (scores.dry === maxScore) {
+      resultType = 'Сухая кожа';
+      resultText = 'Вашей коже не хватает влаги и комфорта. Ей подойдут мягкие очищающие средства, увлажняющие сыворотки и питательные кремы.';
+      recommendations = [
+        'Выбирайте мягкое очищение без ощущения скрипа.',
+        'Добавьте увлажняющую сыворотку.',
+        'Используйте крем с питательной текстурой.',
+        'Не забывайте SPF утром.'
+      ];
+    } else if (scores.normal === maxScore) {
+      resultType = 'Нормальная кожа';
+      resultText = 'У вас сбалансированный тип кожи. Главная задача — поддерживать её состояние и не перегружать уход.';
+      recommendations = [
+        'Используйте мягкое очищение утром и вечером.',
+        'Поддерживайте увлажнение лёгким кремом.',
+        'Добавляйте сыворотку по потребности.',
+        'Каждый день наносите SPF.'
+      ];
+    } else if (scores.oily === maxScore) {
+      resultType = 'Жирная кожа';
+      resultText = 'Кожа склонна к блеску и воспалениям. Важно не пересушивать её, а использовать лёгкий себорегулирующий уход.';
+      recommendations = [
+        'Выбирайте гелевые и лёгкие текстуры.',
+        'Не используйте слишком агрессивное очищение.',
+        'Добавьте ниацинамид или успокаивающие компоненты.',
+        'Обязательно увлажняйте кожу.'
+      ];
+    } else {
+      resultType = 'Комбинированная кожа';
+      resultText = 'Скорее всего, у вас комбинированный тип кожи: Т-зона может жирниться, а щёки быть более сухими.';
+      recommendations = [
+        'Используйте лёгкий уход для Т-зоны.',
+        'Для щёк выбирайте более увлажняющий крем.',
+        'Не пересушивайте кожу кислотами.',
+        'SPF наносите на всё лицо каждый день.'
+      ];
+    }
+
+    const resultBox = document.getElementById('quizResult');
+
+    resultBox.style.display = 'block';
+
+    resultBox.innerHTML = `
+      <h3>Ваш результат: ${resultType}</h3>
+      <p>${resultText}</p>
+      <ul>
+        ${recommendations.map(item => `<li>${item}</li>`).join('')}
+      </ul>
+    `;
+
+    resultBox.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', updateQuizCarousel);
+</script>
+
+{% endblock %}

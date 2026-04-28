@@ -1,0 +1,834 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}GlowCare{% endblock %}</title>
+
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header class="gc-header">
+
+  <div class="gc-topline">
+    <div class="gc-shell gc-topline-inner">
+      <div class="gc-topline-left">
+        <a href="{% url 'tips' %}" class="gc-topline-link">Советы</a>
+      </div>
+
+      <div class="gc-topline-right">
+        <a href="tel:+77756444441" class="gc-topline-phone">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.1 2.18 2 2 0 012.08 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+          </svg>
+          +7 (775) 644-44-41
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="gc-mainline">
+    <div class="gc-shell gc-mainline-inner">
+
+      <a href="{% url 'home' %}" class="gc-logo">
+        <span class="gc-logo-title">GlowCare</span>
+        <span class="gc-logo-subtitle">магазин уходовой косметики</span>
+      </a>
+
+      <div class="gc-catalog-wrap">
+        <a href="{% url 'catalog' %}" class="gc-catalog-btn">
+          <svg class="gc-catalog-svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <rect x="0" y="0" width="6.4" height="6.4" rx="1.4"></rect>
+            <rect x="9.6" y="0" width="6.4" height="6.4" rx="1.4"></rect>
+            <rect x="0" y="9.6" width="6.4" height="6.4" rx="1.4"></rect>
+            <rect x="9.6" y="9.6" width="6.4" height="6.4" rx="1.4"></rect>
+          </svg>
+          Каталог
+        </a>
+
+        <div class="gc-catalog-dropdown">
+
+          <div class="gc-catalog-sidebar">
+            <a href="{% url 'category_detail' 'cleaning' %}" class="gc-side-link">Очищение</a>
+            <a href="{% url 'category_detail' 'toning' %}" class="gc-side-link">Тонизация</a>
+            <a href="{% url 'category_detail' 'serums' %}" class="gc-side-link">Сыворотки</a>
+            <a href="{% url 'category_detail' 'creams' %}" class="gc-side-link">Кремы</a>
+            <a href="{% url 'category_detail' 'spf' %}" class="gc-side-link">SPF-защита</a>
+          </div>
+
+          <div class="gc-catalog-content">
+
+            <div class="gc-catalog-col">
+              <h4>
+                <a href="{% url 'category_detail' 'cleaning' %}">Очищение</a>
+              </h4>
+              <a href="{% url 'category_detail' 'cleaning' %}">Гели для умывания</a>
+              <a href="{% url 'category_detail' 'cleaning' %}">Пенки</a>
+              <a href="{% url 'category_detail' 'cleaning' %}">Мицеллярная вода</a>
+              <a href="{% url 'category_detail' 'cleaning' %}">Гидрофильные масла</a>
+            </div>
+
+            <div class="gc-catalog-col">
+              <h4>
+                <a href="{% url 'category_detail' 'toning' %}">Тонизация</a>
+              </h4>
+              <a href="{% url 'category_detail' 'toning' %}">Тонеры</a>
+              <a href="{% url 'category_detail' 'toning' %}">Лосьоны</a>
+              <a href="{% url 'category_detail' 'toning' %}">Эссенции</a>
+              <a href="{% url 'category_detail' 'toning' %}">Успокаивающий уход</a>
+            </div>
+
+            <div class="gc-catalog-col">
+              <h4>
+                <a href="{% url 'category_detail' 'serums' %}">Активный уход</a>
+              </h4>
+              <a href="{% url 'category_detail' 'serums' %}">Сыворотки</a>
+              <a href="{% url 'category_detail' 'creams' %}">Кремы</a>
+              <a href="{% url 'category_detail' 'creams' %}">Увлажнение</a>
+              <a href="{% url 'category_detail' 'creams' %}">Восстановление</a>
+            </div>
+
+            <div class="gc-catalog-col">
+              <h4>
+                <a href="{% url 'category_detail' 'spf' %}">Защита</a>
+              </h4>
+              <a href="{% url 'category_detail' 'spf' %}">SPF для лица</a>
+              <a href="{% url 'category_detail' 'spf' %}">Лёгкие SPF-кремы</a>
+              <a href="{% url 'category_detail' 'spf' %}">Для чувствительной кожи</a>
+              <a href="{% url 'category_detail' 'spf' %}">Тонирующие SPF</a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <form class="gc-search" action="{% url 'catalog' %}" method="get">
+        <input type="text" name="q" placeholder="Найти крем, SPF, тонер..." value="{{ request.GET.q }}">
+        <button type="submit" aria-label="Поиск">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="M20 20l-3.5-3.5"></path>
+          </svg>
+        </button>
+      </form>
+
+      <div class="gc-header-icons">
+
+        {% if user.is_authenticated %}
+          <a href="{% url 'wishlist_view' %}" class="gc-icon-link gc-icon-badge-wrap gc-heart-link">
+            <span class="gc-heart-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+                <path d="M20.8 4.6c-1.9-1.8-4.9-1.7-6.7.2L12 7l-2.1-2.2C8.1 2.9 5.1 2.8 3.2 4.6 1.1 6.6 1 9.9 3 12l9 8.7 9-8.7c2-2.1 1.9-5.4-.2-7.4z"></path>
+              </svg>
+            </span>
+
+            {% with count=user.wishlist_items.count %}
+              {% if count > 0 %}
+                <span class="gc-badge">{{ count }}</span>
+              {% endif %}
+            {% endwith %}
+
+            <span>Избранное</span>
+          </a>
+        {% else %}
+          <a href="{% url 'login' %}" class="gc-icon-link gc-heart-link">
+            <span class="gc-heart-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+                <path d="M20.8 4.6c-1.9-1.8-4.9-1.7-6.7.2L12 7l-2.1-2.2C8.1 2.9 5.1 2.8 3.2 4.6 1.1 6.6 1 9.9 3 12l9 8.7 9-8.7c2-2.1 1.9-5.4-.2-7.4z"></path>
+              </svg>
+            </span>
+            <span>Избранное</span>
+          </a>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+          <a href="{% url 'cart_view' %}" class="gc-icon-link gc-icon-badge-wrap">
+            <span class="gc-bag-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <path d="M6 7h12l-1 14H7L6 7z"></path>
+                <path d="M9 7a3 3 0 016 0"></path>
+              </svg>
+            </span>
+
+            {% with count=user.cart_items.count %}
+              {% if count > 0 %}
+                <span class="gc-badge">{{ count }}</span>
+              {% endif %}
+            {% endwith %}
+
+            <span>Корзина</span>
+          </a>
+        {% else %}
+          <a href="{% url 'login' %}" class="gc-icon-link">
+            <span class="gc-bag-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <path d="M6 7h12l-1 14H7L6 7z"></path>
+                <path d="M9 7a3 3 0 016 0"></path>
+              </svg>
+            </span>
+            <span>Корзина</span>
+          </a>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+          <a href="{% url 'profile' %}" class="gc-avatar-link" title="Профиль">
+            {% if user.profile_image %}
+              <img src="{{ user.profile_image.url }}" alt="avatar" class="gc-avatar-img">
+            {% else %}
+              <div class="gc-avatar-placeholder">👤</div>
+            {% endif %}
+          </a>
+        {% else %}
+          <a href="{% url 'login' %}" class="gc-login-btn">Войти</a>
+        {% endif %}
+
+        <button class="gc-dark-toggle" id="darkToggle" title="Тёмный режим">
+          <svg id="gc-icon-moon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+          </svg>
+
+          <svg id="gc-icon-sun" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+</header>
+
+{% block content %}
+{% endblock %}
+
+<footer class="gc-footer">
+  <div class="gc-footer-main">
+    <div class="gc-shell gc-footer-grid">
+
+      <div class="gc-footer-col gc-footer-brand">
+        <a href="{% url 'home' %}" class="gc-footer-logo">
+          <div>
+            <div class="gc-footer-logo-title">GlowCare</div>
+            <div class="gc-footer-logo-subtitle">магазин косметики</div>
+          </div>
+        </a>
+
+        <p class="gc-footer-social-title">Подписывайся на нас:</p>
+
+        <a href="#" class="gc-social-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <circle cx="12" cy="12" r="4"></circle>
+            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle>
+          </svg>
+          <span>@glowcare.shop</span>
+        </a>
+      </div>
+
+      <div class="gc-footer-col">
+        <h4>GlowCare</h4>
+        <a href="{% url 'home' %}">Главная</a>
+        <a href="{% url 'catalog' %}">Каталог</a>
+        <a href="{% url 'tips' %}">Советы</a>
+      </div>
+
+      <div class="gc-footer-col">
+        <h4>Покупателям</h4>
+        <a href="#">Доставка</a>
+        <a href="#">Оплата</a>
+        <a href="#">Бонусы</a>
+        <a href="#">Возврат</a>
+      </div>
+
+      <div class="gc-footer-col">
+        <h4>Контакты</h4>
+        <p>Алматы, Казахстан</p>
+        <p>Ежедневно 10:00–22:00</p>
+        <p>+7 (775) 644-44-41</p>
+        <p>info@glowcare.kz</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="gc-footer-bottom">
+    <div class="gc-shell gc-footer-bottom-inner">
+      <div>© GlowCare 2026</div>
+
+      <div class="gc-footer-bottom-links">
+        <a href="#">Политика конфиденциальности</a>
+        <a href="#">Публичная оферта</a>
+      </div>
+
+      <div class="gc-footer-payments">
+        <span>Mastercard</span>
+        <span>VISA</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<a href="{% url 'chatbot' %}" class="chat-floating" title="Открыть чат">💬</a>
+
+<style>
+  :root {
+    --gc-text: #111111;
+    --gc-muted: #777777;
+    --gc-line: #eeeeee;
+    --gc-white: #ffffff;
+  }
+
+  html,
+  body {
+    margin: 0;
+    background: #ffffff !important;
+    color: var(--gc-text);
+    font-family: "Manrope", Arial, sans-serif;
+  }
+
+  .gc-shell {
+    width: min(1380px, calc(100% - 96px)) !important;
+    margin: 0 auto !important;
+    background: transparent !important;
+  }
+
+  .gc-header {
+    position: relative !important;
+    z-index: 9999 !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid var(--gc-line) !important;
+  }
+
+  .gc-topline {
+    height: 32px !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid #f0f0f0 !important;
+    display: flex;
+    align-items: center;
+  }
+
+  .gc-topline-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff !important;
+  }
+
+  .gc-topline-link,
+  .gc-topline-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #555555 !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+  }
+
+  .gc-mainline {
+    background: #ffffff !important;
+    border-bottom: 1px solid #eeeeee !important;
+  }
+
+  .gc-mainline-inner {
+    min-height: 92px !important;
+    display: grid !important;
+    grid-template-columns: 190px 170px minmax(380px, 1fr) auto !important;
+    align-items: center !important;
+    gap: 26px !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+  }
+
+  .gc-logo {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+    color: #111111 !important;
+    text-decoration: none !important;
+  }
+
+  .gc-logo-title {
+    font-family: "Playfair Display", Georgia, serif !important;
+    color: #111111 !important;
+    font-size: 34px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.07em !important;
+    line-height: 0.95 !important;
+  }
+
+  .gc-logo-subtitle {
+    margin-top: 8px !important;
+    max-width: 150px !important;
+    color: #777777 !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase !important;
+  }
+
+  .gc-catalog-wrap {
+    width: 170px !important;
+    min-width: 170px !important;
+    max-width: 170px !important;
+    position: relative !important;
+    z-index: 1200 !important;
+  }
+
+  .gc-catalog-btn,
+  a.gc-catalog-btn,
+  .gc-catalog-wrap > .gc-catalog-btn {
+    width: 170px !important;
+    min-width: 170px !important;
+    max-width: 170px !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    padding: 0 20px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+
+    background: #111111 !important;
+    color: #ffffff !important;
+    border: 1px solid #111111 !important;
+    border-radius: 18px !important;
+
+    font-family: "Manrope", Arial, sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+    box-sizing: border-box !important;
+    box-shadow: none !important;
+    cursor: pointer !important;
+  }
+
+  .gc-catalog-btn::before,
+  .gc-catalog-btn::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  .gc-catalog-svg,
+  .gc-catalog-btn > svg {
+    display: block !important;
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    flex: 0 0 16px !important;
+    fill: #ffffff !important;
+    color: #ffffff !important;
+  }
+
+  .gc-catalog-btn svg rect {
+    fill: #ffffff !important;
+  }
+
+  .gc-catalog-dropdown {
+    position: absolute !important;
+    top: 58px !important;
+    left: 0 !important;
+    width: 760px !important;
+    min-height: 245px !important;
+
+    display: grid !important;
+    grid-template-columns: 190px 1fr !important;
+
+    background: #ffffff !important;
+    border: 1px solid #eeeeee !important;
+    border-radius: 0 0 26px 26px !important;
+    box-shadow: 0 26px 70px rgba(0, 0, 0, 0.10) !important;
+
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: translateY(-8px) !important;
+    transition: 0.22s ease !important;
+    overflow: hidden !important;
+    z-index: 99999 !important;
+    pointer-events: none !important;
+  }
+
+  .gc-catalog-wrap:hover .gc-catalog-dropdown,
+  .gc-catalog-wrap:focus-within .gc-catalog-dropdown {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+    pointer-events: auto !important;
+  }
+
+  .gc-catalog-dropdown a {
+    cursor: pointer !important;
+    pointer-events: auto !important;
+  }
+
+  .gc-catalog-sidebar {
+    padding: 22px 18px !important;
+    background: #ffffff !important;
+    border-right: 1px solid #eeeeee !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+  }
+
+  .gc-side-link {
+    padding: 11px 14px !important;
+    border-radius: 13px !important;
+    color: #111111 !important;
+    font-family: "Manrope", Arial, sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+    text-decoration: none !important;
+    transition: 0.2s ease !important;
+  }
+
+  .gc-side-link:hover {
+    background: #111111 !important;
+    color: #ffffff !important;
+  }
+
+  .gc-catalog-content {
+    padding: 24px 28px !important;
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(115px, 1fr)) !important;
+    gap: 28px !important;
+    background: #ffffff !important;
+  }
+
+  .gc-catalog-col h4 {
+    margin: 0 0 14px !important;
+  }
+
+  .gc-catalog-col h4 a {
+    display: inline-block !important;
+    color: #111111 !important;
+    font-family: "Manrope", Arial, sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 850 !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.01em !important;
+    text-decoration: none !important;
+  }
+
+  .gc-catalog-col h4 a:hover {
+    color: #000000 !important;
+  }
+
+  .gc-catalog-col a {
+    display: block !important;
+    margin-bottom: 10px !important;
+    color: #666666 !important;
+    font-family: "Manrope", Arial, sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    line-height: 1.35 !important;
+    text-decoration: none !important;
+    transition: 0.18s ease !important;
+  }
+
+  .gc-catalog-col a:hover {
+    color: #111111 !important;
+    transform: translateX(2px) !important;
+  }
+
+  .gc-search {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 48px !important;
+    display: grid !important;
+    grid-template-columns: 1fr 48px !important;
+    align-items: center !important;
+    background: #ffffff !important;
+    border: 1px solid #dddddd !important;
+    border-radius: 999px !important;
+    overflow: hidden !important;
+    box-shadow: none !important;
+  }
+
+  .gc-search input {
+    width: 100% !important;
+    height: 100% !important;
+    border: none !important;
+    outline: none !important;
+    background: #ffffff !important;
+    padding: 0 20px !important;
+    color: #111111 !important;
+    font-size: 14px !important;
+    font-family: "Manrope", Arial, sans-serif !important;
+  }
+
+  .gc-search input::placeholder {
+    color: #999999 !important;
+  }
+
+  .gc-search button {
+    width: 48px !important;
+    height: 48px !important;
+    border: none !important;
+    background: transparent !important;
+    color: #111111 !important;
+    display: grid !important;
+    place-items: center !important;
+    cursor: pointer !important;
+  }
+
+  .gc-header-icons {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 14px !important;
+    background: transparent !important;
+  }
+
+  .gc-icon-link {
+    position: relative !important;
+    min-width: 64px !important;
+    color: #111111 !important;
+    text-decoration: none !important;
+    display: grid !important;
+    justify-items: center !important;
+    gap: 4px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+  }
+
+  .gc-heart-icon,
+  .gc-bag-icon {
+    width: 36px !important;
+    height: 36px !important;
+    border: 1px solid #dedede !important;
+    border-radius: 50% !important;
+    background: #ffffff !important;
+    display: grid !important;
+    place-items: center !important;
+    color: #111111 !important;
+  }
+
+  .gc-badge {
+    position: absolute !important;
+    top: -5px !important;
+    right: 8px !important;
+    min-width: 18px !important;
+    height: 18px !important;
+    background: #111111 !important;
+    color: #ffffff !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    border-radius: 999px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 5px !important;
+    border: 2px solid #ffffff !important;
+  }
+
+  .gc-avatar-link {
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+    border: 1px solid #dddddd !important;
+    display: block !important;
+    flex-shrink: 0 !important;
+  }
+
+  .gc-avatar-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+  }
+
+  .gc-dark-toggle {
+    width: 38px !important;
+    height: 38px !important;
+    border: 1px solid #dddddd !important;
+    border-radius: 50% !important;
+    background: #ffffff !important;
+    color: #111111 !important;
+    cursor: pointer !important;
+    display: grid !important;
+    place-items: center !important;
+  }
+
+  .chat-floating {
+    position: fixed !important;
+    right: 28px !important;
+    bottom: 28px !important;
+    width: 66px !important;
+    height: 66px !important;
+    border-radius: 50% !important;
+    background: #111111 !important;
+    color: #ffffff !important;
+    display: grid !important;
+    place-items: center !important;
+    text-decoration: none !important;
+    font-size: 24px !important;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18) !important;
+    z-index: 9999 !important;
+  }
+
+  .gc-footer {
+    background: #ffffff !important;
+    border-top: 1px solid #eeeeee !important;
+    color: #111111 !important;
+  }
+
+  .gc-footer-main {
+    background: #ffffff !important;
+    padding: 56px 0 46px !important;
+  }
+
+  .gc-footer-grid {
+    display: grid !important;
+    grid-template-columns: 1.5fr 1fr 1fr 1.2fr !important;
+    gap: 44px !important;
+  }
+
+  .gc-footer-logo {
+    text-decoration: none !important;
+    color: inherit !important;
+  }
+
+  .gc-footer-logo-title {
+    color: #111111 !important;
+    font-family: "Playfair Display", Georgia, serif !important;
+    font-size: 32px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.07em !important;
+  }
+
+  .gc-footer-logo-subtitle {
+    color: #777777 !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+  }
+
+  .gc-footer-col h4 {
+    color: #111111 !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    margin: 0 0 14px !important;
+  }
+
+  .gc-footer-col a,
+  .gc-footer-col p {
+    display: block !important;
+    color: #666666 !important;
+    font-size: 14px !important;
+    text-decoration: none !important;
+    margin: 0 0 10px !important;
+  }
+
+  .gc-social-pill {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: #ffffff !important;
+    border: 1px solid #dddddd !important;
+    color: #555555 !important;
+    border-radius: 999px !important;
+    padding: 9px 16px !important;
+    text-decoration: none !important;
+  }
+
+  .gc-footer-bottom {
+    background: #ffffff !important;
+    border-top: 1px solid #eeeeee !important;
+    color: #777777 !important;
+  }
+
+  .gc-footer-bottom-inner {
+    min-height: 58px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 24px !important;
+  }
+
+  .gc-footer-bottom-links {
+    display: flex !important;
+    gap: 22px !important;
+  }
+
+  .gc-footer-bottom a,
+  .gc-footer-bottom-links a,
+  .gc-footer-payments span {
+    color: #777777 !important;
+    text-decoration: none !important;
+    font-size: 13px !important;
+  }
+
+  .gc-footer-payments {
+    display: flex !important;
+    gap: 12px !important;
+    font-weight: 700 !important;
+  }
+
+  @media (max-width: 1100px) {
+    .gc-shell {
+      width: calc(100% - 40px) !important;
+    }
+
+    .gc-mainline-inner {
+      grid-template-columns: 170px 170px 1fr !important;
+    }
+
+    .gc-header-icons {
+      grid-column: 1 / -1 !important;
+      justify-content: flex-end !important;
+      padding-bottom: 14px !important;
+    }
+  }
+
+  @media (max-width: 820px) {
+    .gc-shell {
+      width: calc(100% - 28px) !important;
+    }
+
+    .gc-mainline-inner {
+      grid-template-columns: 1fr !important;
+      gap: 14px !important;
+      padding: 16px 0 !important;
+    }
+
+    .gc-catalog-wrap,
+    .gc-catalog-btn {
+      width: 170px !important;
+      min-width: 170px !important;
+      max-width: 170px !important;
+    }
+
+    .gc-catalog-dropdown {
+      display: none !important;
+    }
+  }
+</style>
+
+<script src="{% static 'script.js' %}"></script>
+
+</body>
+</html>

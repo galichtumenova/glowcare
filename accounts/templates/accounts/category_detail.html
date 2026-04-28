@@ -1,0 +1,916 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block title %}
+  {% if active_sub %}{{ active_sub.name }}{% else %}{{ category.name }}{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<main class="catalog-minimal-page" id="categoryAjaxRoot">
+
+  <section class="catalog-wrap">
+
+    <!-- BREADCRUMB -->
+    <div class="catalog-breadcrumb">
+      <a href="{% url 'home' %}">Главная</a>
+      <span>/</span>
+      <a href="{% url 'catalog' %}">Каталог</a>
+      <span>/</span>
+      <span>
+        {% if active_sub %}
+          {{ active_sub.name }}
+        {% else %}
+          {{ category.name }}
+        {% endif %}
+      </span>
+    </div>
+
+    <!-- TITLE -->
+    <div class="catalog-title-row">
+      <div>
+        <span class="catalog-small-label">GlowCare selection</span>
+
+        <h1>
+          {% if active_sub %}
+            {{ active_sub.name }}
+          {% else %}
+            {{ category.name }}
+          {% endif %}
+        </h1>
+      </div>
+
+      <div class="catalog-count">
+        <strong>{{ products|length }}</strong>
+        <span>товаров</span>
+      </div>
+    </div>
+
+    <!-- CATEGORIES -->
+    <div class="catalog-chip-row">
+      {% for cat in categories %}
+        <a href="{% url 'category_detail' cat.slug %}"
+           data-ajax-category
+           class="catalog-chip {% if cat.slug == category.slug %}active{% endif %}">
+          {{ cat.name }}
+        </a>
+      {% endfor %}
+    </div>
+
+    <!-- SUBCATEGORIES -->
+    {% if subcategories %}
+      <div class="catalog-chip-row sub">
+        <a href="{% url 'category_detail' category.slug %}"
+           data-ajax-category
+           class="catalog-chip small {% if not active_sub %}active{% endif %}">
+          Все товары
+        </a>
+
+        {% for sub in subcategories %}
+          <a href="{% url 'subcategory_detail' category.slug sub.slug %}"
+             data-ajax-category
+             class="catalog-chip small {% if active_sub.slug == sub.slug %}active{% endif %}">
+            {{ sub.name }}
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- FILTERS -->
+    <div class="catalog-filter-panel">
+
+      <div class="catalog-filter-left">
+        <span class="filter-title">Фильтр</span>
+
+        <label class="price-filter">
+          <span>от</span>
+          <input type="number" id="priceMin" placeholder="0" min="0">
+        </label>
+
+        <label class="price-filter">
+          <span>до</span>
+          <input type="number" id="priceMax" placeholder="50000" min="0">
+        </label>
+
+        <label class="discount-filter">
+          <input type="checkbox" id="discountToggle">
+          <span>Со скидкой</span>
+        </label>
+
+        <button type="button" id="resetFilters" class="reset-filter-btn">
+          Сбросить
+        </button>
+      </div>
+
+      <div class="catalog-filter-right">
+        <span class="shown-count">
+          Показано <b id="visibleCount">{{ products|length }}</b>
+        </span>
+
+        <select id="sortSelect" class="catalog-sort-select">
+          <option value="popular">Популярные</option>
+          <option value="cheap">Сначала дешевле</option>
+          <option value="expensive">Сначала дороже</option>
+          <option value="new">Новинки</option>
+        </select>
+      </div>
+
+    </div>
+
+    <!-- PRODUCTS -->
+    <section class="products-section">
+
+      <div class="products-grid" id="productsGrid">
+
+        {% for product in products %}
+          <article class="product-card"
+                   data-price="{{ product.price }}"
+                   data-index="{{ forloop.counter }}"
+                   data-discount="false">
+
+            {% if user.is_authenticated %}
+              <button type="button"
+                      class="wish-btn {% if product.id in wishlist_ids %}active{% endif %}"
+                      data-wishlist-url="{% url 'wishlist_toggle' product.id %}">
+                {% if product.id in wishlist_ids %}♥{% else %}♡{% endif %}
+              </button>
+            {% else %}
+              <a href="{% url 'login' %}" class="wish-btn">♡</a>
+            {% endif %}
+
+            <a href="{% url 'product_detail' category.slug product.id %}" class="product-img-box">
+              {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+              {% else %}
+                <div class="no-img">GlowCare</div>
+              {% endif %}
+            </a>
+
+            <div class="product-info">
+              <span class="product-category">
+                {% if active_sub %}
+                  {{ active_sub.name }}
+                {% else %}
+                  {{ category.name }}
+                {% endif %}
+              </span>
+
+              <a href="{% url 'product_detail' category.slug product.id %}" class="product-name">
+                {{ product.name }}
+              </a>
+
+              <div class="product-price">
+                {{ product.price }} ₸
+              </div>
+
+              <div class="product-actions">
+
+                {% if user.is_authenticated %}
+                  <button type="button"
+                          class="cart-btn {% if product.id in cart_ids %}active{% endif %}"
+                          data-cart-url="{% url 'cart_add' product.id %}"
+                          data-cart-remove-url="{% url 'cart_remove' product.id %}">
+                    {% if product.id in cart_ids %}В корзине{% else %}В корзину{% endif %}
+                  </button>
+                {% else %}
+                  <a href="{% url 'login' %}" class="cart-btn">В корзину</a>
+                {% endif %}
+
+                {% if product.kaspi_url %}
+                  <a href="{{ product.kaspi_url }}" target="_blank" class="kaspi-btn">
+                    Kaspi
+                  </a>
+                {% endif %}
+
+              </div>
+            </div>
+
+          </article>
+        {% empty %}
+          <div class="catalog-empty">
+            <h3>Товары пока не добавлены</h3>
+            <p>В этой категории пока нет товаров.</p>
+          </div>
+        {% endfor %}
+
+      </div>
+
+      <div class="catalog-empty" id="noResults" style="display: none;">
+        <h3>Ничего не найдено</h3>
+        <p>Попробуйте изменить цену или убрать фильтр.</p>
+      </div>
+
+    </section>
+
+  </section>
+
+</main>
+
+<style>
+.catalog-minimal-page {
+  background: #ffffff;
+  color: #111111;
+  padding: 20px 0 64px;
+}
+
+.catalog-wrap {
+  width: min(1280px, calc(100% - 110px));
+  margin: 0 auto;
+}
+
+/* ===== BREADCRUMB ===== */
+
+.catalog-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 22px;
+  color: #a0a0a0;
+  font-size: 12px;
+}
+
+.catalog-breadcrumb a {
+  color: #8a8a8a;
+  text-decoration: none;
+}
+
+.catalog-breadcrumb a:hover {
+  color: #111111;
+}
+
+/* ===== TITLE ===== */
+
+.catalog-title-row {
+  padding: 24px 0 24px;
+  border-top: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: end;
+}
+
+.catalog-small-label {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #8c8c8c;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.catalog-title-row h1 {
+  max-width: 760px;
+  margin: 0;
+  color: #111111;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(30px, 3.8vw, 52px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+}
+
+.catalog-count {
+  width: 84px;
+  height: 84px;
+  border: 1px solid #dedede;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.catalog-count strong {
+  color: #111111;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.catalog-count span {
+  margin-top: 5px;
+  color: #8a8a8a;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ===== CATEGORY CHIPS ===== */
+
+.catalog-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.catalog-chip-row.sub {
+  margin-top: 10px;
+  margin-bottom: 22px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.catalog-chip {
+  min-height: 36px;
+  padding: 0 16px;
+  border: 1px solid #dddddd;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #111111;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.catalog-chip.small {
+  min-height: 34px;
+  padding: 0 15px;
+}
+
+.catalog-chip:hover {
+  border-color: #111111;
+}
+
+.catalog-chip.active {
+  background: #111111;
+  border-color: #111111;
+  color: #ffffff;
+}
+
+/* ===== FILTER ===== */
+
+.catalog-filter-panel {
+  margin-bottom: 24px;
+  padding: 13px 0;
+  background: #ffffff;
+  border-top: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: center;
+}
+
+.catalog-filter-left,
+.catalog-filter-right {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filter-title {
+  color: #111111;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.price-filter,
+.discount-filter {
+  height: 34px;
+  padding: 0 11px;
+  background: #ffffff;
+  border: 1px solid #e4e4e4;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #8a8a8a;
+  font-size: 12px;
+}
+
+.price-filter input {
+  width: 72px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #111111;
+  font-size: 12px;
+}
+
+.discount-filter input {
+  accent-color: #111111;
+}
+
+.reset-filter-btn,
+.catalog-sort-select {
+  height: 34px;
+  padding: 0 13px;
+  border: 1px solid #dddddd;
+  background: #ffffff;
+  color: #111111;
+  font-size: 12px;
+  cursor: pointer;
+  outline: none;
+}
+
+.reset-filter-btn:hover,
+.catalog-sort-select:hover {
+  border-color: #111111;
+}
+
+.shown-count {
+  color: #777777;
+  font-size: 12px;
+}
+
+.shown-count b {
+  color: #111111;
+}
+
+/* ===== PRODUCTS ===== */
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.product-card {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #eeeeee;
+  transition: 0.25s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+  border-color: #d8d8d8;
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.045);
+}
+
+.wish-btn {
+  position: absolute;
+  top: 11px;
+  right: 11px;
+  z-index: 5;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #eeeeee;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #999999;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.wish-btn:hover,
+.wish-btn.active {
+  color: #111111;
+  border-color: #111111;
+}
+
+.product-img-box {
+  height: 205px;
+  background: #ffffff;
+  border-bottom: 1px solid #f2f2f2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.product-img-box img {
+  width: 100%;
+  height: 100%;
+  padding: 18px;
+  object-fit: contain;
+  transition: 0.3s ease;
+}
+
+.product-card:hover .product-img-box img {
+  transform: scale(1.025);
+}
+
+.no-img {
+  color: #bbbbbb;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 20px;
+}
+
+.product-info {
+  min-height: 165px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-category {
+  margin-bottom: 8px;
+  color: #9b9b9b;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.product-name {
+  min-height: 38px;
+  color: #111111;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.42;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+.product-name:hover {
+  color: #555555;
+}
+
+.product-price {
+  margin-top: 12px;
+  color: #111111;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.product-actions {
+  margin-top: auto;
+  padding-top: 14px;
+  display: flex;
+  gap: 7px;
+}
+
+.cart-btn,
+.kaspi-btn {
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid #111111;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.22s ease;
+}
+
+.cart-btn {
+  flex: 1;
+  background: #111111;
+  color: #ffffff;
+}
+
+.cart-btn:hover,
+.cart-btn.active {
+  background: #ffffff;
+  color: #111111;
+}
+
+.kaspi-btn {
+  background: #ffffff;
+  color: #111111;
+}
+
+.kaspi-btn:hover {
+  background: #111111;
+  color: #ffffff;
+}
+
+/* ===== EMPTY ===== */
+
+.catalog-empty {
+  grid-column: 1 / -1;
+  padding: 58px 24px;
+  background: #ffffff;
+  border: 1px solid #eeeeee;
+  text-align: center;
+}
+
+.catalog-empty h3 {
+  margin: 0 0 10px;
+  color: #111111;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+}
+
+.catalog-empty p {
+  margin: 0;
+  color: #666666;
+  font-size: 13px;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 1180px) {
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .catalog-wrap {
+    width: calc(100% - 64px);
+  }
+}
+
+@media (max-width: 900px) {
+  .catalog-wrap {
+    width: calc(100% - 32px);
+  }
+
+  .catalog-title-row {
+    grid-template-columns: 1fr;
+  }
+
+  .catalog-count {
+    width: 78px;
+    height: 78px;
+  }
+
+  .catalog-filter-panel {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .catalog-filter-right {
+    justify-content: space-between;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .catalog-title-row h1 {
+    font-size: 32px;
+  }
+
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-img-box {
+    height: 230px;
+  }
+
+  .product-actions {
+    flex-direction: column;
+  }
+
+  .kaspi-btn {
+    width: 100%;
+  }
+}
+</style>
+
+<script>
+(function () {
+  const csrf = document.cookie.match(/csrftoken=([^;]+)/)?.[1] || '';
+
+  function priceNumber(value) {
+    return Number(String(value || '').replace(',', '.').replace(/[^\d.]/g, '')) || 0;
+  }
+
+  function cards() {
+    return Array.from(document.querySelectorAll('.product-card'));
+  }
+
+  function updateCount() {
+    const visible = cards().filter(card => card.style.display !== 'none');
+    const count = document.getElementById('visibleCount');
+    const empty = document.getElementById('noResults');
+
+    if (count) {
+      count.textContent = visible.length;
+    }
+
+    if (empty) {
+      empty.style.display = visible.length === 0 && cards().length > 0 ? 'block' : 'none';
+    }
+  }
+
+  function applyFilters() {
+    const min = Number(document.getElementById('priceMin')?.value || 0);
+    const maxInput = document.getElementById('priceMax')?.value;
+    const max = maxInput ? Number(maxInput) : Infinity;
+    const discountOnly = document.getElementById('discountToggle')?.checked || false;
+
+    cards().forEach(card => {
+      const price = priceNumber(card.dataset.price);
+      const hasDiscount = card.dataset.discount === 'true';
+
+      const okPrice = price >= min && price <= max;
+      const okDiscount = !discountOnly || hasDiscount;
+
+      card.style.display = okPrice && okDiscount ? '' : 'none';
+    });
+
+    updateCount();
+  }
+
+  function sortProducts(type) {
+    const grid = document.getElementById('productsGrid');
+    if (!grid) return;
+
+    const items = cards();
+
+    items.sort((a, b) => {
+      const pa = priceNumber(a.dataset.price);
+      const pb = priceNumber(b.dataset.price);
+
+      const ia = Number(a.dataset.index || 0);
+      const ib = Number(b.dataset.index || 0);
+
+      if (type === 'cheap') {
+        return pa - pb;
+      }
+
+      if (type === 'expensive') {
+        return pb - pa;
+      }
+
+      if (type === 'new') {
+        return ib - ia;
+      }
+
+      if (type === 'popular') {
+        return ia - ib;
+      }
+
+      return ia - ib;
+    });
+
+    items.forEach(item => grid.appendChild(item));
+    applyFilters();
+  }
+
+  function loadCategoryWithoutRefresh(url) {
+    const root = document.getElementById('categoryAjaxRoot');
+
+    if (!root) {
+      window.location.href = url;
+      return;
+    }
+
+    root.style.opacity = '0.45';
+
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    })
+      .then(res => res.text())
+      .then(html => {
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        const newRoot = doc.getElementById('categoryAjaxRoot');
+        const newTitle = doc.querySelector('title');
+
+        if (!newRoot) {
+          window.location.href = url;
+          return;
+        }
+
+        root.innerHTML = newRoot.innerHTML;
+        root.style.opacity = '1';
+
+        if (newTitle) {
+          document.title = newTitle.textContent;
+        }
+
+        history.pushState({}, '', url);
+
+        window.scrollTo({
+          top: document.querySelector('.catalog-minimal-page').offsetTop,
+          behavior: 'smooth'
+        });
+
+        updateCount();
+      })
+      .catch(() => {
+        root.style.opacity = '1';
+      });
+  }
+
+  document.addEventListener('click', function (e) {
+    const ajaxLink = e.target.closest('a[data-ajax-category]');
+
+    if (ajaxLink) {
+      e.preventDefault();
+      e.stopPropagation();
+      loadCategoryWithoutRefresh(ajaxLink.href);
+      return;
+    }
+
+    const wish = e.target.closest('.wish-btn[data-wishlist-url]');
+
+    if (wish) {
+      e.preventDefault();
+
+      fetch(wish.dataset.wishlistUrl, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrf,
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            wish.classList.toggle('active', data.in_wishlist);
+            wish.textContent = data.in_wishlist ? '♥' : '♡';
+          }
+        });
+
+      return;
+    }
+
+    const cart = e.target.closest('.cart-btn[data-cart-url]');
+
+    if (cart) {
+      e.preventDefault();
+
+      const inCart = cart.classList.contains('active');
+      const url = inCart ? cart.dataset.cartRemoveUrl : cart.dataset.cartUrl;
+
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrf,
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            cart.classList.toggle('active', data.in_cart);
+            cart.textContent = data.in_cart ? 'В корзине' : 'В корзину';
+          }
+        });
+
+      return;
+    }
+
+    const reset = e.target.closest('#resetFilters');
+
+    if (reset) {
+      e.preventDefault();
+
+      const min = document.getElementById('priceMin');
+      const max = document.getElementById('priceMax');
+      const discount = document.getElementById('discountToggle');
+      const sortSelect = document.getElementById('sortSelect');
+
+      if (min) min.value = '';
+      if (max) max.value = '';
+      if (discount) discount.checked = false;
+
+      if (sortSelect) {
+        sortSelect.value = 'popular';
+        sortProducts('popular');
+      }
+
+      applyFilters();
+    }
+  }, true);
+
+  document.addEventListener('input', function (e) {
+    if (e.target.matches('#priceMin') || e.target.matches('#priceMax')) {
+      applyFilters();
+    }
+  });
+
+  document.addEventListener('change', function (e) {
+    if (e.target.matches('#discountToggle')) {
+      applyFilters();
+    }
+
+    if (e.target.matches('#sortSelect')) {
+      sortProducts(e.target.value);
+    }
+  });
+
+  window.addEventListener('popstate', function () {
+    loadCategoryWithoutRefresh(window.location.href);
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    sortProducts('popular');
+    updateCount();
+  });
+})();
+</script>
+
+{% endblock %}

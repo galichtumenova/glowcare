@@ -1,0 +1,1 @@
+web: gunicorn chkv_project.wsgi:application

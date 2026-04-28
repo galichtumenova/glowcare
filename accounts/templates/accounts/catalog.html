@@ -1,0 +1,401 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block title %}Каталог{% endblock %}
+
+{% block content %}
+
+<main class="prof-catalog-page">
+  <div class="gc-shell">
+
+    <section class="prof-cat-head">
+      <a href="{% url 'home' %}" class="prof-back">‹ Назад</a>
+      <h1>Каталог</h1>
+    </section>
+
+    <section class="prof-categories-section">
+      <div class="prof-category-grid">
+
+        {% for category in categories %}
+          <a href="{% url 'category_detail' category.slug %}" class="prof-category-card">
+
+            <div class="prof-category-img">
+              {% if category.slug == 'cleaning' %}
+                <img src="{% static 'images/catalog-cleaning.jpg' %}" alt="{{ category.name }}">
+              {% elif category.slug == 'toning' %}
+                <img src="{% static 'images/catalog-toning.jpg' %}" alt="{{ category.name }}">
+              {% elif category.slug == 'serums' %}
+                <img src="{% static 'images/catalog-serums.jpg' %}" alt="{{ category.name }}">
+              {% elif category.slug == 'creams' %}
+                <img src="{% static 'images/catalog-creams.jpg' %}" alt="{{ category.name }}">
+              {% elif category.slug == 'spf' %}
+                <img src="{% static 'images/catalog-spf.jpg' %}" alt="{{ category.name }}">
+              {% elif category.slug == 'sets' %}
+                <img src="{% static 'images/catalog-sets.jpg' %}" alt="{{ category.name }}">
+              {% else %}
+                <img src="{% static 'images/catalog-cleaning.jpg' %}" alt="{{ category.name }}">
+              {% endif %}
+            </div>
+
+            <div class="prof-category-text">
+              <h3>{{ category.name }}</h3>
+
+              <p>
+                {% if category.slug == 'cleaning' %}
+                  Пенки, гели, очищение
+                {% elif category.slug == 'toning' %}
+                  Тонеры и эссенции
+                {% elif category.slug == 'serums' %}
+                  Сыворотки и ампулы
+                {% elif category.slug == 'creams' %}
+                  Кремы для лица
+                {% elif category.slug == 'spf' %}
+                  Защита от солнца
+                {% elif category.slug == 'sets' %}
+                  Наборы ухода
+                {% else %}
+                  Уходовая косметика
+                {% endif %}
+              </p>
+            </div>
+
+          </a>
+        {% empty %}
+          <div class="prof-empty">
+            Категории пока не добавлены.
+          </div>
+        {% endfor %}
+
+      </div>
+    </section>
+
+    <!-- БОЛЬШОЙ БАННЕР ОСТАВИЛА В ТАКОМ ЖЕ СТИЛЕ -->
+    <section class="prof-help-block">
+      <img src="{% static 'images/catalog-help.jpg' %}" alt="Подбор ухода" class="prof-help-bg">
+
+      <div class="prof-help-overlay"></div>
+
+      <div class="prof-help-content">
+        <h2>Не нашли нужное средство?</h2>
+        <p>
+          Напишите нам, и мы поможем подобрать уход под ваш тип кожи.
+        </p>
+        <a href="{% url 'chatbot' %}">Подобрать уход</a>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<style>
+/* ===== CATALOG PAGE ===== */
+
+.prof-catalog-page {
+  background: #ffffff;
+  color: #111111;
+  padding: 38px 0 50px;
+}
+
+.prof-catalog-page .gc-shell {
+  max-width: 1180px;
+  width: calc(100% - 96px);
+  margin: 0 auto;
+}
+
+/* ===== HEADER ===== */
+
+.prof-cat-head {
+  margin-bottom: 30px;
+}
+
+.prof-back {
+  display: inline-flex;
+  margin-bottom: 18px;
+  color: #666666;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.prof-back:hover {
+  color: #111111;
+}
+
+.prof-cat-head h1 {
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  color: #111111;
+  font-size: 46px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.055em;
+  text-transform: uppercase;
+}
+
+/* ===== CATEGORY GRID ===== */
+
+.prof-categories-section {
+  margin-bottom: 50px;
+}
+
+.prof-category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+/* ===== CATEGORY CARD — СВЕТЛЫЙ ЭСТЕТИЧНЫЙ ВИД ===== */
+
+.prof-category-card {
+  position: relative;
+  min-height: 200px;
+  display: block;
+  padding: 0;
+  background: #f8f8f8;
+  color: #111111;
+  text-decoration: none;
+  overflow: hidden;
+  border-radius: 0;
+  border: 1px solid #eeeeee;
+  transition: 0.28s ease;
+}
+
+.prof-category-card:hover {
+  transform: translateY(-5px);
+  border-color: #dddddd;
+  box-shadow: 0 22px 45px rgba(0, 0, 0, 0.08);
+}
+
+.prof-category-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #f7f7f7;
+  overflow: hidden;
+}
+
+.prof-category-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 1;
+  filter: brightness(1.04) contrast(1.02) saturate(1.02);
+  transition: 0.4s ease;
+}
+
+.prof-category-card:hover .prof-category-img img {
+  transform: scale(1.05);
+  filter: brightness(1.02) contrast(1.04) saturate(1.04);
+}
+
+/* Очень мягкий белый градиент только для читабельности текста */
+.prof-category-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.86) 0%,
+      rgba(255, 255, 255, 0.58) 42%,
+      rgba(255, 255, 255, 0.12) 100%
+    );
+  pointer-events: none;
+}
+
+.prof-category-text {
+  position: relative;
+  z-index: 2;
+  min-height: 200px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.prof-category-text h3 {
+  margin: 0 0 10px;
+  color: #111111;
+  font-size: 15px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.055em;
+}
+
+.prof-category-text p {
+  margin: 0;
+  max-width: 230px;
+  color: #444444;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+/* Если фото не загрузилось — карточка будет светлая, не чёрная */
+.prof-category-img img[src=""],
+.prof-category-img img:not([src]) {
+  display: none;
+}
+
+/* ===== HELP BLOCK — БОЛЬШОЙ БАННЕР ОСТАВЛЕН ТЁМНЫМ ===== */
+
+.prof-help-block {
+  position: relative;
+  min-height: 300px;
+  margin: 58px auto 0;
+  padding: 0;
+  overflow: hidden;
+  background: #111111;
+  border: 1px solid #111111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.prof-help-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 1;
+  filter: contrast(1.06) saturate(1.05) brightness(0.82);
+}
+
+.prof-help-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.38);
+  backdrop-filter: none;
+}
+
+.prof-help-content {
+  position: relative;
+  z-index: 2;
+  max-width: 620px;
+  padding: 44px 24px;
+  text-align: center;
+}
+
+.prof-help-content h2 {
+  margin: 0 0 12px;
+  color: #ffffff;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.08;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  text-shadow: 0 3px 18px rgba(0, 0, 0, 0.25);
+}
+
+.prof-help-content p {
+  max-width: 560px;
+  margin: 0 auto 22px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.6;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.22);
+}
+
+.prof-help-content a {
+  min-width: 160px;
+  height: 44px;
+  padding: 0 24px;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 850;
+  transition: 0.25s ease;
+}
+
+.prof-help-content a:hover {
+  background: #ffffff;
+  color: #111111;
+}
+
+/* ===== EMPTY ===== */
+
+.prof-empty {
+  grid-column: 1 / -1;
+  padding: 42px;
+  color: #777777;
+  background: #f7f7f7;
+  text-align: center;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 1100px) {
+  .prof-category-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 800px) {
+  .prof-catalog-page .gc-shell {
+    width: calc(100% - 28px);
+  }
+
+  .prof-category-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .prof-category-card,
+  .prof-category-text {
+    min-height: 175px;
+  }
+}
+
+@media (max-width: 520px) {
+  .prof-catalog-page {
+    padding-top: 28px;
+  }
+
+  .prof-cat-head h1 {
+    font-size: 36px;
+  }
+
+  .prof-category-card,
+  .prof-category-text {
+    min-height: 155px;
+  }
+
+  .prof-category-text {
+    padding: 24px 20px;
+  }
+
+  .prof-category-text h3 {
+    font-size: 13px;
+  }
+
+  .prof-category-text p {
+    font-size: 12px;
+  }
+
+  .prof-help-block {
+    min-height: 240px;
+    margin-top: 38px;
+  }
+
+  .prof-help-content h2 {
+    font-size: 24px;
+  }
+
+  .prof-help-content p {
+    font-size: 13px;
+  }
+}
+</style>
+
+{% endblock %}

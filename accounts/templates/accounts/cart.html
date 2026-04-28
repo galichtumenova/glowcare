@@ -1,0 +1,744 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block title %}Корзина{% endblock %}
+
+{% block content %}
+
+<main class="cart-page">
+  <section class="cart-container">
+
+    <div class="cart-head">
+      <div>
+        <span class="page-label">GlowCare cart</span>
+        <h1>Корзина</h1>
+      </div>
+
+      {% if items %}
+        <span class="cart-count">{{ items|length }} товаров</span>
+      {% endif %}
+    </div>
+
+    {% if items %}
+      <div class="cart-layout">
+
+        <div class="cart-items">
+          {% for item in items %}
+            <article class="cart-item" id="cart-item-{{ item.product.id }}">
+
+              <a href="{% url 'product_detail' item.product.category.slug item.product.id %}" class="cart-img-link">
+                <div class="cart-img-box">
+                  {% if item.product.image %}
+                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                  {% else %}
+                    <div class="cart-no-img">GlowCare</div>
+                  {% endif %}
+                </div>
+              </a>
+
+              <div class="cart-info">
+                <span class="cart-cat">{{ item.product.category.name }}</span>
+
+                <a href="{% url 'product_detail' item.product.category.slug item.product.id %}" class="cart-name">
+                  {{ item.product.name }}
+                </a>
+
+                <div class="cart-price">
+                  {{ item.product.price }} ₸
+                </div>
+              </div>
+
+              <div class="cart-actions">
+                <div class="cart-qty">
+                  <span>Количество</span>
+                  <strong>{{ item.quantity }}</strong>
+                </div>
+
+                <div class="cart-total">
+                  <span>Сумма</span>
+                  <strong>{{ item.total_price }} ₸</strong>
+                </div>
+
+                <form method="post" action="{% url 'cart_remove' item.product.id %}">
+                  {% csrf_token %}
+                  <button type="submit" class="cart-remove-btn">
+                    Удалить
+                  </button>
+                </form>
+              </div>
+
+            </article>
+          {% endfor %}
+        </div>
+
+        <aside class="cart-summary">
+          <h3>Итого</h3>
+
+          <div class="summary-row">
+            <span>Товаров</span>
+            <strong>{{ items|length }}</strong>
+          </div>
+
+          <div class="summary-row total">
+            <span>К оплате</span>
+            <strong>{{ total }} ₸</strong>
+          </div>
+
+          <button type="button" class="checkout-btn" id="openCheckout">
+            Оформить заказ
+          </button>
+
+          <a href="{% url 'catalog' %}" class="continue-btn">
+            ← Продолжить покупки
+          </a>
+        </aside>
+
+      </div>
+
+      <div class="checkout-modal" id="checkoutModal">
+        <div class="checkout-overlay" id="closeCheckoutOverlay"></div>
+
+        <div class="checkout-box">
+          <button type="button" class="checkout-close" id="closeCheckout">×</button>
+
+          <span class="checkout-label">GlowCare order</span>
+          <h2>Оформление заказа</h2>
+          <p class="checkout-text">
+            Заполните данные, и заказ автоматически придёт в Telegram.
+          </p>
+
+          <form class="checkout-form" id="checkoutForm">
+            {% csrf_token %}
+
+            <label>
+              Ваше имя
+              <input type="text" name="name" placeholder="Например, Камила" required>
+            </label>
+
+            <label>
+              Телефон
+              <input type="tel" name="phone" placeholder="+7 ___ ___ __ __" required>
+            </label>
+
+            <label>
+              Адрес доставки
+              <input type="text" name="address" placeholder="Город, улица, дом" required>
+            </label>
+
+            <label>
+              Комментарий
+              <textarea name="comment" placeholder="Например: доставка после 18:00"></textarea>
+            </label>
+
+            <button type="submit" class="checkout-submit">
+              Подтвердить заказ
+            </button>
+          </form>
+
+          <div class="checkout-success" id="checkoutSuccess">
+            Заказ отправлен! Мы скоро свяжемся с вами ♡
+          </div>
+        </div>
+      </div>
+
+    {% else %}
+      <div class="cart-empty">
+        <div class="empty-icon">⌑</div>
+        <h2>Корзина пуста</h2>
+        <p>Добавьте товары из каталога, чтобы оформить заказ.</p>
+        <a href="{% url 'catalog' %}" class="empty-btn">Перейти в каталог</a>
+      </div>
+    {% endif %}
+
+  </section>
+</main>
+
+<style>
+.cart-page {
+  background: #ffffff;
+  color: #111111;
+  padding: 44px 0 90px;
+}
+
+.cart-container {
+  width: min(1240px, calc(100% - 96px));
+  margin: 0 auto;
+}
+
+.cart-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 24px;
+  margin-bottom: 30px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.page-label {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #888888;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.cart-head h1 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(34px, 4vw, 56px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.cart-count {
+  color: #777777;
+  font-size: 13px;
+}
+
+.cart-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 22px;
+  align-items: start;
+}
+
+.cart-items {
+  display: grid;
+  gap: 12px;
+}
+
+.cart-item {
+  display: grid;
+  grid-template-columns: 110px 1fr auto;
+  gap: 18px;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #eeeeee;
+  padding: 14px;
+  transition: 0.25s ease;
+}
+
+.cart-item:hover {
+  border-color: #d8d8d8;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.04);
+}
+
+.cart-img-link {
+  text-decoration: none;
+}
+
+.cart-img-box {
+  width: 110px;
+  height: 110px;
+  background: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.cart-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 10px;
+}
+
+.cart-no-img {
+  color: #bbbbbb;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+}
+
+.cart-info {
+  min-width: 0;
+}
+
+.cart-cat {
+  display: block;
+  margin-bottom: 8px;
+  color: #999999;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.cart-name {
+  max-width: 440px;
+  color: #111111;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.45;
+  display: block;
+}
+
+.cart-name:hover {
+  color: #555555;
+}
+
+.cart-price {
+  margin-top: 10px;
+  color: #111111;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.cart-actions {
+  min-width: 180px;
+  display: grid;
+  gap: 10px;
+  justify-items: end;
+}
+
+.cart-qty,
+.cart-total {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+.cart-qty span,
+.cart-total span {
+  color: #888888;
+  font-size: 11px;
+}
+
+.cart-qty strong,
+.cart-total strong {
+  color: #111111;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.cart-remove-btn {
+  min-height: 34px;
+  padding: 0 16px;
+  border: 1px solid #dddddd;
+  background: #ffffff;
+  color: #111111;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.22s ease;
+}
+
+.cart-remove-btn:hover {
+  background: #111111;
+  color: #ffffff;
+  border-color: #111111;
+}
+
+.cart-summary {
+  position: sticky;
+  top: 100px;
+  background: #ffffff;
+  border: 1px solid #eeeeee;
+  padding: 24px;
+}
+
+.cart-summary h3 {
+  margin: 0 0 20px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 30px;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 14px;
+  color: #777777;
+  font-size: 14px;
+}
+
+.summary-row strong {
+  color: #111111;
+  font-weight: 600;
+}
+
+.summary-row.total {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid #eeeeee;
+}
+
+.summary-row.total strong {
+  font-size: 20px;
+}
+
+.checkout-btn,
+.continue-btn {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.22s ease;
+}
+
+.checkout-btn {
+  border: 1px solid #111111;
+  background: #111111;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.checkout-btn:hover {
+  background: #ffffff;
+  color: #111111;
+}
+
+.continue-btn {
+  background: #ffffff;
+  border: 1px solid #dddddd;
+  color: #111111;
+}
+
+.continue-btn:hover {
+  border-color: #111111;
+}
+
+.cart-empty {
+  min-height: 430px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border: 1px solid #eeeeee;
+  background: #ffffff;
+  text-align: center;
+}
+
+.empty-icon {
+  margin-bottom: 18px;
+  color: #111111;
+  font-size: 56px;
+  opacity: 0.35;
+}
+
+.cart-empty h2 {
+  margin: 0 0 8px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 34px;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+}
+
+.cart-empty p {
+  margin: 0 0 24px;
+  color: #777777;
+  font-size: 14px;
+}
+
+.empty-btn {
+  min-height: 42px;
+  padding: 0 26px;
+  border: 1px solid #111111;
+  background: #111111;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.22s ease;
+}
+
+.empty-btn:hover {
+  background: #ffffff;
+  color: #111111;
+}
+
+/* MODAL CHECKOUT */
+
+.checkout-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.checkout-modal.active {
+  display: flex;
+}
+
+.checkout-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(4px);
+}
+
+.checkout-box {
+  position: relative;
+  z-index: 2;
+  width: min(460px, 100%);
+  background: #ffffff;
+  border: 1px solid #eeeeee;
+  padding: 34px;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.18);
+}
+
+.checkout-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #dddddd;
+  background: #ffffff;
+  color: #111111;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.checkout-close:hover {
+  background: #111111;
+  color: #ffffff;
+}
+
+.checkout-label {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #888888;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.checkout-box h2 {
+  margin: 0 0 10px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 34px;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+}
+
+.checkout-text {
+  margin: 0 0 24px;
+  color: #666666;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.checkout-form {
+  display: grid;
+  gap: 14px;
+}
+
+.checkout-form label {
+  display: grid;
+  gap: 7px;
+  color: #555555;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.checkout-form input,
+.checkout-form textarea {
+  width: 100%;
+  border: 1px solid #dddddd;
+  background: #ffffff;
+  color: #111111;
+  padding: 13px 14px;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+}
+
+.checkout-form input:focus,
+.checkout-form textarea:focus {
+  border-color: #111111;
+}
+
+.checkout-form textarea {
+  min-height: 86px;
+  resize: vertical;
+}
+
+.checkout-submit {
+  min-height: 44px;
+  margin-top: 6px;
+  border: 1px solid #111111;
+  background: #111111;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.checkout-submit:hover {
+  background: #ffffff;
+  color: #111111;
+}
+
+.checkout-success {
+  display: none;
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px solid #d7d7d7;
+  background: #fafafa;
+  color: #111111;
+  font-size: 14px;
+  text-align: center;
+}
+
+.checkout-success.active {
+  display: block;
+}
+
+@media (max-width: 960px) {
+  .cart-container {
+    width: calc(100% - 48px);
+  }
+
+  .cart-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .cart-summary {
+    position: static;
+  }
+}
+
+@media (max-width: 680px) {
+  .cart-container {
+    width: calc(100% - 28px);
+  }
+
+  .cart-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .cart-item {
+    grid-template-columns: 90px 1fr;
+  }
+
+  .cart-img-box {
+    width: 90px;
+    height: 90px;
+  }
+
+  .cart-actions {
+    grid-column: 1 / -1;
+    min-width: 0;
+    justify-items: stretch;
+    grid-template-columns: 1fr 1fr auto;
+    align-items: center;
+  }
+
+  .cart-qty,
+  .cart-total {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 520px) {
+  .checkout-box {
+    padding: 26px 20px;
+  }
+
+  .checkout-box h2 {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cart-actions {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<script>
+  const openCheckout = document.getElementById("openCheckout");
+  const checkoutModal = document.getElementById("checkoutModal");
+  const closeCheckout = document.getElementById("closeCheckout");
+  const closeCheckoutOverlay = document.getElementById("closeCheckoutOverlay");
+  const checkoutForm = document.getElementById("checkoutForm");
+  const checkoutSuccess = document.getElementById("checkoutSuccess");
+
+  if (openCheckout && checkoutModal) {
+    openCheckout.addEventListener("click", function () {
+      checkoutModal.classList.add("active");
+      document.body.style.overflow = "hidden";
+    });
+  }
+
+  function closeModal() {
+    if (checkoutModal) {
+      checkoutModal.classList.remove("active");
+      document.body.style.overflow = "";
+    }
+  }
+
+  if (closeCheckout) {
+    closeCheckout.addEventListener("click", closeModal);
+  }
+
+  if (closeCheckoutOverlay) {
+    closeCheckoutOverlay.addEventListener("click", closeModal);
+  }
+
+  if (checkoutForm) {
+    checkoutForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(checkoutForm);
+
+      checkoutSuccess.textContent = "Отправляем заказ...";
+      checkoutSuccess.classList.add("active");
+
+      fetch("{% url 'checkout_order' %}", {
+        method: "POST",
+        headers: {
+          "X-Requested-With": "XMLHttpRequest"
+        },
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          checkoutSuccess.textContent = "Заказ отправлен! Мы скоро свяжемся с вами ♡";
+          checkoutForm.reset();
+
+          setTimeout(function () {
+            closeModal();
+            checkoutSuccess.classList.remove("active");
+            window.location.reload();
+          }, 1800);
+        } else {
+          checkoutSuccess.textContent = data.message || "Ошибка оформления заказа";
+          checkoutSuccess.classList.add("active");
+        }
+      })
+      .catch(() => {
+        checkoutSuccess.textContent = "Ошибка соединения. Попробуйте ещё раз.";
+        checkoutSuccess.classList.add("active");
+      });
+    });
+  }
+</script>
+
+{% endblock %}

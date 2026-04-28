@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WUI зертханалық жұмыс</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
+      color: #f8fafc;
+      min-height: 100vh;
+      padding: 30px 15px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 36px;
+      color: #ffffff;
+    }
+
+    .subtitle {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #cbd5e1;
+      font-size: 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 25px;
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(8px);
+    }
+
+    .card h2 {
+      margin-bottom: 16px;
+      color: #38bdf8;
+      font-size: 26px;
+    }
+
+    .card p.desc {
+      color: #cbd5e1;
+      margin-bottom: 18px;
+      line-height: 1.6;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label.title-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #e2e8f0;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid #475569;
+      background: #0f172a;
+      color: #fff;
+      font-size: 15px;
+      outline: none;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="date"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+    }
+
+    .checkbox-list,
+    .radio-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .checkbox-item,
+    .radio-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      padding: 12px;
+      border-radius: 12px;
+    }
+
+    input[type="checkbox"],
+    input[type="radio"] {
+      transform: scale(1.15);
+      accent-color: #38bdf8;
+      cursor: pointer;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: bold;
+      transition: 0.25s;
+    }
+
+    .btn-primary {
+      background: #38bdf8;
+      color: #0f172a;
+    }
+
+    .btn-primary:hover {
+      background: #0ea5e9;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: #22c55e;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #16a34a;
+      transform: translateY(-2px);
+    }
+
+    .btn-danger {
+      background: #ef4444;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+      transform: translateY(-2px);
+    }
+
+    .range-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: #38bdf8;
+    }
+
+    .range-value {
+      min-width: 55px;
+      text-align: center;
+      padding: 8px 10px;
+      background: #0f172a;
+      border-radius: 8px;
+      border: 1px solid #475569;
+    }
+
+    .question {
+      margin-bottom: 22px;
+      padding: 18px;
+      border-radius: 14px;
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+    }
+
+    .question h3 {
+      margin-bottom: 12px;
+      color: #f8fafc;
+      font-size: 18px;
+    }
+
+    .result-box {
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      line-height: 1.7;
+      color: #e2e8f0;
+    }
+
+    .correct {
+      color: #22c55e;
+      font-weight: bold;
+    }
+
+    .wrong {
+      color: #ef4444;
+      font-weight: bold;
+    }
+
+    .note {
+      margin-top: 12px;
+      color: #94a3b8;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      color: #cbd5e1;
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 28px;
+      }
+
+      .card h2 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>WUI негізіндегі пайдаланушы интерфейсі</h1>
+    <p class="subtitle">Формалар, файл жүктеу және компьютерлік темір бойынша викторина</p>
+
+    <div class="grid">
+      <!-- 1-бөлім -->
+      <section class="card">
+        <h2>1. Файл таңдау және жүктеу формасы</h2>
+        <p class="desc">
+          Бұл бөлімде пайдаланушы checkbox арқылы файлдарды таңдап,
+          JavaScript көмегімен сыртқы сілтемелерден жүктей алады.
+        </p>
+
+        <form id="downloadForm" method="get" action="#" target="_self">
+          <div class="form-group">
+            <label class="title-label">Қай файлдарды жүктегіңіз келеді?</label>
+            <div class="checkbox-list">
+              <div class="checkbox-item">
+                <input type="checkbox" id="file1" name="downloadFile" value="html-guide">
+                <label for="file1">HTML анықтамалығы (PDF)</label>
+              </div>
+
+              <div class="checkbox-item">
+                <input type="checkbox" id="file2" name="downloadFile" value="sample-image">
+                <label for="file2">Үлгі сурет (JPG)</label>
+              </div>
+
+              <div class="checkbox-item">
+                <input type="checkbox" id="file3" name="downloadFile" value="sample-text">
+                <label for="file3">Мәтіндік файл (TXT)</label>
+              </div>
+
+              <div class="checkbox-item">
+                <input type="checkbox" id="file4" name="downloadFile" value="sample-video">
+                <label for="file4">Бейне сілтемесі (MP4)</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="title-label" for="studentName">Пайдаланушы аты</label>
+            <input type="text" id="studentName" name="studentName" placeholder="Аты-жөніңізді енгізіңіз">
+          </div>
+
+          <div class="form-group">
+            <label class="title-label" for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="example@mail.com">
+          </div>
+
+          <div class="form-group">
+            <label class="title-label" for="dateField">Жүктеу күні</label>
+            <input type="date" id="dateField" name="dateField">
+          </div>
+
+          <div class="form-group">
+            <label class="title-label" for="category">Файл категориясы</label>
+            <select id="category" name="category">
+              <option value="documents">Құжаттар</option>
+              <option value="images">Суреттер</option>
+              <option value="videos">Бейнелер</option>
+              <option value="mixed">Аралас</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="title-label" for="priorityRange">Жүктеу маңыздылығы</label>
+            <div class="range-wrap">
+              <input type="range" id="priorityRange" min="1" max="10" value="5">
+              <span class="range-value" id="rangeValue">5</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="title-label" for="comment">Қосымша пікір</label>
+            <textarea id="comment" name="comment" placeholder="Бұл жерге өз пікіріңізді жазыңыз"></textarea>
+          </div>
+
+          <div class="btn-row">
+            <button type="button" class="btn-primary" id="downloadBtn">Таңдалған файлдарды жүктеу</button>
+            <button type="reset" class="btn-danger">Тазалау</button>
+          </div>
+
+          <p class="note">
+            Ескерту: кейбір сыртқы сілтемелер браузер баптауына байланысты жаңа бетте ашылуы мүмкін.
+          </p>
+        </form>
+      </section>
+
+      <!-- 2-бөлім -->
+      <section class="card">
+        <h2>2. Компьютерлік темір бойынша викторина</h2>
+        <p class="desc">
+          Төмендегі 10 сұраққа жауап беріңіз. Әр сұрақта тек бір дұрыс жауап бар.
+        </p>
+
+        <form id="quizForm">
+          <div class="question">
+            <h3>1. Компьютердің “миы” деп қай құрылғы аталады?</h3>
+            <div class="radio-list">
+              <label class="radio-item"><input type="radio" name="q1" value="a"> RAM</label>
+              <label class="radio-item"><input type="radio" name="q1" value="b"> SSD</label>
+              <label class="radio-item"><input type="radio" name="q1" value="c"> Процессор (CPU)</label>
+              <label class="radio-item"><input type="radio" name="q1" value="d"> Монитор</label>
+              <label class="radio-item"><input type="radio" name="q1" value="e"> Қуат көзі</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <h3>2. Уақытша деректерді сақтау үшін қайсысы қолданылады?</h3>
+            <div class="radio-list">
+              <label class="radio-item"><input type="radio" name="q2" value="a"> HDD</label>
+              <label class="radio-item"><input type="radio" name="q2" value="b"> RAM</label>
+              <label class="radio-item"><input type="radio" name="q2" value="c"> GPU</label>
+              <label class="radio-item"><input type="radio" name="q2" value="d"> Аналық плата</label>
+              <label class="radio-item"><input type="radio" name="q2" value="e"> Кулер</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <h3>3. Бейнені өңдеуге жауапты құрылғы:</h3>
+            <div class="radio-list">
+              <label class="radio-item"><input type="radio" name="q3" value="a"> Желілік карта</label>
+              <label class="radio-item"><input type="radio" name="q3" value="b"> Дыбыс картасы</label>
+              <label class="radio-item"><input type="radio" name="q3" value="c"> Видеокарта (GPU)</label>
+              <label class="radio-item"><input type="radio" name="q3" value="d"> SSD</label>
+              <label class="radio-item"><input type="radio" name="q3" value="e"> BIOS батареясы</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <h3>4. Деректерді ұзақ уақыт сақтайтын құрылғы:</h3>
+            <div class="radio-list">
+              <label class="radio-item"><input type="radio" name="q4" value="a"> RAM</label>
+              <label class="radio-item"><input type="radio" name="q4" value="b"> Кэш</label>
+              <label class="radio-item"><input type="radio" name="q4" value="c"> Регистр</label>
+              <label class="radio-item"><input type="radio" name="q4" value="d"> SSD/HDD</label>
+              <label class="radio-item"><input type="radio" name="q4" value="e"> VRAM</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <h3>5. Барлық құрылғыларды байланыстыратын негізгі тақша:</h3>
+            <div class="radio-list">
+              <label class="radio-item"><input type="radio" name="q5" value="a"> Аналық плата</label>
+              <label class="radio-item"><input type="radio" name="q5" value="b"> Бейне карта</label>
+              <label class="radio-item"><input type="radio" name="q5" value="c"> Процессор</label>
+              <label class="radio-item"><input type="radio" name="q5" value="d"> Тінтуір</label>
+              <label class="radio-item"><input type="radio" name="q5" value="e"> Модем</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <h3>6. Компьютерге электр қуатын беретін құрылғы:</h3>
+            <div class="radio-list">
+              <label class="radio-item"><input type="radio" name="q6" value="a"> PSU (Power Supply)</label>
+              <label class="radio-item"><input type="radio" name="q6" value="b"> RAM</label>
+              <label class="radio-item"><input type="radio" name="q6" value="c"> SSD</label>
+              <label class="radio-item"><input type="radio" name="q6" value="d"> BIOS</label>
+              <label class="radio-item"><input type="radio" name="q6" value="e"> Touchpad</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <h3>7. SSD құрылғысының артықшылығы қандай?</h3>
+            <div class="radio-list">
+              <label class="radio-item"><input type="radio" name="q7" value="a"> Өте баяу жұмыс істейді</label>
+              <label class="radio-item"><input type="radio" name="q7" value="b"> Тек дыбыс шығарады</label>
+              <label class="radio-item"><input type="radio" name="q7" value="c"> Жылдам, үнсіз, соққыға төзімді</label>
+              <label class="radio-item"><input type="radio" name="q7" value="d"> Интернет таратады</label>
+              <label class="radio-item"><input type="radio" name="q7" value="e"> Экранды үлкейтеді</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <h3>8. Компьютер температурасын төмендету үшін не керек?</h3>
+            <div class="radio-list">
+              <label class="radio-item"><input type="radio" name="q8" value="a"> Принтер</label>
+              <label class="radio-item"><input type="radio" name="q8" value="b"> Кулер немесе салқындату жүйесі</label>
+              <label class="radio-item"><input type="radio" name="q8" value="c"> Веб-камера</label>
+              <label class="radio-item"><input type="radio" name="q8" value="d"> Флешка</label>
+              <label class="radio-item"><input type="radio" name="q8" value="e"> Сканер</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <h3>9. LAN порты не үшін керек?</h3>
+            <div class="radio-list">
+              <label class="radio-item"><input type="radio" name="q9" value="a"> Қағаз басып шығару үшін</label>
+              <label class="radio-item"><input type="radio" name="q9" value="b"> Фото сақтау үшін</label>
+              <label class="radio-item"><input type="radio" name="q9" value="c"> Желіге қосылу үшін</label>
+              <label class="radio-item"><input type="radio" name="q9" value="d"> Дыбыс жазу үшін</label>
+              <label class="radio-item"><input type="radio" name="q9" value="e"> Экран жарығын азайту үшін</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <h3>10. BIOS/UEFI-дің негізгі қызметі қандай?</h3>
+            <div class="radio-list">
+              <label class="radio-item"><input type="radio" name="q10" value="a"> Музыка қосу</label>
+              <label class="radio-item"><input type="radio" name="q10" value="b"> Компьютер қосылғанда құрылғыларды бастапқы тексеру</label>
+              <label class="radio-item"><input type="radio" name="q10" value="c"> Видео монтаж жасау</label>
+              <label class="radio-item"><input type="radio" name="q10" value="d"> Антивирус орнату</label>
+              <label class="radio-item"><input type="radio" name="q10" value="e"> Интернет жылдамдығын арттыру</label>
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button type="button" class="btn-secondary" onclick="checkQuiz()">Нәтижені шығару</button>
+            <button type="reset" class="btn-danger" onclick="clearResult()">Қайта бастау</button>
+          </div>
+        </form>
+
+        <div id="quizResult" class="result-box" style="display:none;"></div>
+      </section>
+    </div>
+
+    <footer>
+      Дайындалған WUI зертханалық жұмыс үлгісі
+    </footer>
+  </div>
+
+  <script>
+    // RANGE мәнін шығару
+    const priorityRange = document.getElementById("priorityRange");
+    const rangeValue = document.getElementById("rangeValue");
+
+    priorityRange.addEventListener("input", function () {
+      rangeValue.textContent = this.value;
+    });
+
+    // Файл жүктеу
+    document.getElementById("downloadBtn").addEventListener("click", function () {
+      const files = {
+        "html-guide": {
+          url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+          name: "HTML_Guide.pdf"
+        },
+        "sample-image": {
+          url: "https://www.w3.org/People/mimasa/test/imgformat/img/w3c_home.jpg",
+          name: "Sample_Image.jpg"
+        },
+        "sample-text": {
+          url: "https://www.w3.org/TR/PNG/iso_8859-1.txt",
+          name: "Sample_Text.txt"
+        },
+        "sample-video": {
+          url: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+          name: "Sample_Video.mp4"
+        }
+      };
+
+      const selectedFiles = document.querySelectorAll('input[name="downloadFile"]:checked');
+
+      if (selectedFiles.length === 0) {
+        alert("Кемінде бір файл таңдаңыз!");
+        return;
+      }
+
+      selectedFiles.forEach((item, index) => {
+        const fileData = files[item.value];
+
+        if (fileData) {
+          setTimeout(() => {
+            const a = document.createElement("a");
+            a.href = fileData.url;
+            a.download = fileData.name;
+            a.target = "_blank";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          }, index * 300);
+        }
+      });
+
+      alert("Таңдалған файлдар жүктеуге жіберілді.");
+    });
+
+    // Викторина тексеру
+    function checkQuiz() {
+      const correctAnswers = {
+        q1: "c",
+        q2: "b",
+        q3: "c",
+        q4: "d",
+        q5: "a",
+        q6: "a",
+        q7: "c",
+        q8: "b",
+        q9: "c",
+        q10: "b"
+      };
+
+      let score = 0;
+      let output = "<h3>Викторина нәтижесі</h3>";
+
+      for (let i = 1; i <= 10; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+
+        if (!selected) {
+          output += `<p><span class="wrong">${i}-сұрақ:</span> Жауап таңдалмаған.</p>`;
+        } else if (selected.value === correctAnswers[`q${i}`]) {
+          score++;
+          output += `<p><span class="correct">${i}-сұрақ:</span> Дұрыс.</p>`;
+        } else {
+          output += `<p><span class="wrong">${i}-сұрақ:</span> Бұрыс.</p>`;
+        }
+      }
+
+      output += `<hr style="margin:12px 0; border:1px solid #334155;">`;
+      output += `<p><strong>Жалпы ұпай: ${score} / 10</strong></p>`;
+
+      const resultBox = document.getElementById("quizResult");
+      resultBox.style.display = "block";
+      resultBox.innerHTML = output;
+      resultBox.scrollIntoView({ behavior: "smooth" });
+    }
+
+    function clearResult() {
+      const resultBox = document.getElementById("quizResult");
+      resultBox.style.display = "none";
+      resultBox.innerHTML = "";
+    }
+  </script>
+</body>
+</html>

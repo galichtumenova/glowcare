@@ -1,0 +1,516 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+
+<main class="pd-page">
+
+  <section class="pd-container">
+
+    <!-- BREADCRUMB -->
+    <div class="pd-breadcrumb">
+      <a href="{% url 'catalog' %}">Каталог</a>
+      <span>/</span>
+      <a href="{% url 'category_detail' category.slug %}">{{ category.name }}</a>
+      <span>/</span>
+      <span>{{ product.name }}</span>
+    </div>
+
+    <!-- PRODUCT MAIN -->
+    <section class="pd-main">
+
+      <div class="pd-image-area">
+        <div class="pd-image-box">
+          {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+          {% else %}
+            <div class="pd-no-image">GlowCare</div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="pd-info-area">
+
+        <span class="pd-category">{{ category.name }}</span>
+
+        <h1>{{ product.name }}</h1>
+
+        <div class="pd-price">
+          {{ product.price }} ₸
+        </div>
+
+        <p class="pd-short">
+          Средство для ежедневного ухода за кожей. Лёгкая текстура, аккуратный состав
+          и удобный формат для вашей beauty-рутины.
+        </p>
+
+        <div class="pd-lines">
+
+          <details open>
+            <summary>Описание</summary>
+            <p>
+              {{ product.description }}
+            </p>
+          </details>
+
+          <details>
+            <summary>Рекомендации</summary>
+            <p>
+              Используйте средство по назначению. Перед применением желательно проверить
+              реакцию кожи на небольшом участке.
+            </p>
+          </details>
+
+          <details>
+            <summary>Доставка и оплата</summary>
+            <p>
+              Вы можете оформить заказ через корзину или перейти по ссылке Kaspi, если она добавлена.
+            </p>
+          </details>
+
+        </div>
+
+        <div class="pd-quantity">
+          <span>Количество</span>
+          <div class="pd-qty-box">
+            <button type="button" id="qtyMinus">−</button>
+            <input type="number" id="qtyInput" value="1" min="1">
+            <button type="button" id="qtyPlus">+</button>
+          </div>
+        </div>
+
+        <div class="pd-actions">
+
+          {% if user.is_authenticated %}
+            <button type="button"
+                    class="pd-cart-btn {% if product.id in cart_ids %}active{% endif %}"
+                    data-cart-url="{% url 'cart_add' product.id %}"
+                    data-cart-remove-url="{% url 'cart_remove' product.id %}">
+              {% if product.id in cart_ids %}В корзине{% else %}Добавить в корзину{% endif %}
+            </button>
+
+            <button type="button"
+                    class="pd-wish-btn {% if product.id in wishlist_ids %}active{% endif %}"
+                    data-wishlist-url="{% url 'wishlist_toggle' product.id %}">
+              {% if product.id in wishlist_ids %}♥ В избранном{% else %}♡ В избранное{% endif %}
+            </button>
+          {% else %}
+            <a href="{% url 'login' %}" class="pd-cart-btn">Войти для покупки</a>
+          {% endif %}
+
+        </div>
+
+        <div class="pd-extra-actions">
+          {% if product.kaspi_url %}
+            <a href="{{ product.kaspi_url }}" target="_blank" class="pd-kaspi">
+              Купить через Kaspi
+            </a>
+          {% else %}
+            <span class="pd-muted-btn">
+              Kaspi ссылка пока не добавлена
+            </span>
+          {% endif %}
+
+          <a href="{% url 'category_detail' category.slug %}" class="pd-back">
+            ← Назад к категории
+          </a>
+        </div>
+
+      </div>
+
+    </section>
+
+  </section>
+
+</main>
+
+<style>
+.pd-page {
+  background: #ffffff;
+  color: #111111;
+  padding: 34px 0 80px;
+}
+
+.pd-container {
+  width: min(1180px, calc(100% - 96px));
+  margin: 0 auto;
+}
+
+.pd-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 34px;
+  color: #999999;
+  font-size: 12px;
+}
+
+.pd-breadcrumb a {
+  color: #777777;
+  text-decoration: none;
+}
+
+.pd-breadcrumb a:hover {
+  color: #111111;
+}
+
+.pd-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 68px;
+  align-items: start;
+  padding-top: 28px;
+  border-top: 1px solid #eeeeee;
+}
+
+/* IMAGE */
+
+.pd-image-area {
+  min-height: 560px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pd-image-box {
+  width: 100%;
+  max-width: 460px;
+  height: 560px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pd-image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.pd-no-image {
+  color: #bbbbbb;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 26px;
+}
+
+/* INFO */
+
+.pd-info-area {
+  max-width: 480px;
+  padding-top: 74px;
+}
+
+.pd-category {
+  display: inline-block;
+  margin-bottom: 22px;
+  color: #777777;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.pd-info-area h1 {
+  margin: 0 0 18px;
+  color: #111111;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(30px, 4vw, 46px);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.055em;
+  text-transform: uppercase;
+}
+
+.pd-price {
+  margin-bottom: 26px;
+  color: #111111;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.pd-short {
+  margin: 0 0 28px;
+  max-width: 440px;
+  color: #555555;
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+/* DETAILS */
+
+.pd-lines {
+  border-top: 1px solid #cccccc;
+  margin-bottom: 30px;
+}
+
+.pd-lines details {
+  border-bottom: 1px solid #cccccc;
+  padding: 0;
+}
+
+.pd-lines summary {
+  list-style: none;
+  height: 44px;
+  color: #111111;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.pd-lines summary::-webkit-details-marker {
+  display: none;
+}
+
+.pd-lines summary::after {
+  content: "+";
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.pd-lines details[open] summary::after {
+  content: "−";
+}
+
+.pd-lines p {
+  margin: 0;
+  padding: 0 0 18px;
+  color: #555555;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* QUANTITY */
+
+.pd-quantity {
+  margin-bottom: 20px;
+}
+
+.pd-quantity span {
+  display: block;
+  margin-bottom: 8px;
+  color: #777777;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pd-qty-box {
+  width: 118px;
+  height: 38px;
+  border: 1px solid #111111;
+  border-radius: 999px;
+  display: grid;
+  grid-template-columns: 32px 1fr 32px;
+  align-items: center;
+}
+
+.pd-qty-box button {
+  border: none;
+  background: transparent;
+  color: #111111;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.pd-qty-box input {
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: center;
+  color: #111111;
+  font-size: 13px;
+  background: transparent;
+}
+
+/* BUTTONS */
+
+.pd-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.pd-cart-btn,
+.pd-wish-btn,
+.pd-kaspi,
+.pd-back,
+.pd-muted-btn {
+  min-height: 42px;
+  padding: 0 18px;
+  border: 1px solid #111111;
+  background: #ffffff;
+  color: #111111;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.22s ease;
+}
+
+.pd-cart-btn {
+  background: #111111;
+  color: #ffffff;
+  min-width: 180px;
+}
+
+.pd-cart-btn:hover,
+.pd-cart-btn.active {
+  background: #ffffff;
+  color: #111111;
+}
+
+.pd-wish-btn:hover,
+.pd-wish-btn.active {
+  background: #111111;
+  color: #ffffff;
+}
+
+.pd-extra-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pd-kaspi:hover,
+.pd-back:hover {
+  background: #111111;
+  color: #ffffff;
+}
+
+.pd-muted-btn {
+  border-color: #dddddd;
+  color: #777777;
+  cursor: default;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 960px) {
+  .pd-container {
+    width: calc(100% - 32px);
+  }
+
+  .pd-main {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .pd-image-area {
+    min-height: auto;
+  }
+
+  .pd-image-box {
+    max-width: 100%;
+    height: 420px;
+  }
+
+  .pd-info-area {
+    max-width: 100%;
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .pd-actions,
+  .pd-extra-actions {
+    flex-direction: column;
+  }
+
+  .pd-cart-btn,
+  .pd-wish-btn,
+  .pd-kaspi,
+  .pd-back,
+  .pd-muted-btn {
+    width: 100%;
+  }
+
+  .pd-info-area h1 {
+    font-size: 30px;
+  }
+}
+</style>
+
+<script>
+(function () {
+  const csrf = document.cookie.match(/csrftoken=([^;]+)/)?.[1] || '';
+
+  const qtyInput = document.getElementById('qtyInput');
+  const qtyMinus = document.getElementById('qtyMinus');
+  const qtyPlus = document.getElementById('qtyPlus');
+
+  if (qtyMinus && qtyInput) {
+    qtyMinus.addEventListener('click', function () {
+      const current = Number(qtyInput.value || 1);
+      qtyInput.value = Math.max(1, current - 1);
+    });
+  }
+
+  if (qtyPlus && qtyInput) {
+    qtyPlus.addEventListener('click', function () {
+      const current = Number(qtyInput.value || 1);
+      qtyInput.value = current + 1;
+    });
+  }
+
+  document.addEventListener('click', function (e) {
+    const cart = e.target.closest('.pd-cart-btn[data-cart-url]');
+
+    if (cart) {
+      e.preventDefault();
+
+      const inCart = cart.classList.contains('active');
+      const url = inCart ? cart.dataset.cartRemoveUrl : cart.dataset.cartUrl;
+
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrf,
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          cart.classList.toggle('active', data.in_cart);
+          cart.textContent = data.in_cart ? 'В корзине' : 'Добавить в корзину';
+        }
+      });
+    }
+
+    const wish = e.target.closest('.pd-wish-btn[data-wishlist-url]');
+
+    if (wish) {
+      e.preventDefault();
+
+      fetch(wish.dataset.wishlistUrl, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': csrf,
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          wish.classList.toggle('active', data.in_wishlist);
+          wish.textContent = data.in_wishlist ? '♥ В избранном' : '♡ В избранное';
+        }
+      });
+    }
+  });
+})();
+</script>
+
+{% endblock %}

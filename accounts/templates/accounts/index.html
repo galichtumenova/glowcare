@@ -1,0 +1,933 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+
+<main class="gc-home-new">
+
+  <!-- ===== BIG BANNER ===== -->
+  <section class="beauty-hero">
+    <div class="gc-shell">
+
+      <a href="{% url 'catalog' %}" class="beauty-hero-card">
+        <img src="{% static 'images/banner-main.jpg' %}" alt="GlowCare" class="beauty-hero-img">
+
+        <div class="beauty-hero-overlay"></div>
+
+        <div class="beauty-hero-content">
+          <span class="beauty-hero-label">GlowCare</span>
+
+          <h1>
+            ИДЕАЛЬНАЯ <br>
+            ЧИСТОТА И УХОД <br>
+            ДЛЯ КОЖИ
+          </h1>
+
+          <p>
+            Подберите уход для сияющей кожи: очищение, тонизация,
+            сыворотки, кремы и SPF.
+          </p>
+
+          <div class="beauty-hero-actions">
+            <span class="beauty-main-btn">Подробнее →</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ===== CATEGORY CIRCLES / ОТДЕЛЫ ===== -->
+  <section class="beauty-departments">
+    <div class="gc-shell">
+
+      <div class="department-row">
+
+        <a href="{% url 'category_detail' 'cleaning' %}" class="department-item">
+          <div class="department-img">
+            <img src="{% static 'images/cat-cleaning.jpg' %}" alt="Очищение">
+          </div>
+          <span>Очищение</span>
+        </a>
+
+        <a href="{% url 'category_detail' 'toning' %}" class="department-item">
+          <div class="department-img">
+            <img src="{% static 'images/cat-toning.jpg' %}" alt="Тонизация">
+          </div>
+          <span>Тонизация</span>
+        </a>
+
+        <a href="{% url 'category_detail' 'serums' %}" class="department-item">
+          <div class="department-img">
+            <img src="{% static 'images/cat-serums.jpg' %}" alt="Сыворотки">
+          </div>
+          <span>Сыворотки</span>
+        </a>
+
+        <a href="{% url 'category_detail' 'creams' %}" class="department-item">
+          <div class="department-img">
+            <img src="{% static 'images/cat-creams.jpg' %}" alt="Кремы">
+          </div>
+          <span>Кремы</span>
+        </a>
+
+        <a href="{% url 'category_detail' 'spf' %}" class="department-item">
+          <div class="department-img">
+            <img src="{% static 'images/cat-spf.jpg' %}" alt="SPF">
+          </div>
+          <span>SPF</span>
+        </a>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== ХИТЫ ПРОДАЖ / INFINITE PRODUCT CAROUSEL ===== -->
+  {% if bestsellers %}
+  <section class="beauty-products-section hits-carousel-section">
+    <div class="gc-shell">
+
+      <div class="beauty-section-head">
+        <h2>Хиты продаж</h2>
+        <a href="{% url 'catalog' %}">Все товары →</a>
+      </div>
+
+      <div class="hits-carousel-window">
+        <div class="hits-carousel-track">
+
+          {% for product in bestsellers %}
+            <article class="hits-carousel-card">
+
+              <a href="{% url 'product_detail' product.category.slug product.id %}" class="hits-carousel-img">
+                {% if product.image %}
+                  <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% else %}
+                  <div class="beauty-empty-img">GlowCare</div>
+                {% endif %}
+              </a>
+
+              <div class="hits-carousel-info">
+                {% if product.category %}
+                  <span>{{ product.category.name }}</span>
+                {% endif %}
+
+                <a href="{% url 'product_detail' product.category.slug product.id %}">
+                  {{ product.name }}
+                </a>
+
+                <strong>{{ product.price }} ₸</strong>
+              </div>
+
+            </article>
+          {% endfor %}
+
+          {% for product in bestsellers %}
+            <article class="hits-carousel-card">
+
+              <a href="{% url 'product_detail' product.category.slug product.id %}" class="hits-carousel-img">
+                {% if product.image %}
+                  <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% else %}
+                  <div class="beauty-empty-img">GlowCare</div>
+                {% endif %}
+              </a>
+
+              <div class="hits-carousel-info">
+                {% if product.category %}
+                  <span>{{ product.category.name }}</span>
+                {% endif %}
+
+                <a href="{% url 'product_detail' product.category.slug product.id %}">
+                  {{ product.name }}
+                </a>
+
+                <strong>{{ product.price }} ₸</strong>
+              </div>
+
+            </article>
+          {% endfor %}
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- ===== BEAUTY BLOG ===== -->
+  <section class="beauty-blog-preview">
+    <div class="gc-shell">
+
+      <div class="beauty-section-head">
+        <h2>Beauty blog</h2>
+        <a href="{% url 'tips' %}">Все статьи →</a>
+      </div>
+
+      <div class="beauty-blog-grid">
+
+        <a href="{% url 'tips' %}" class="beauty-blog-card big">
+          <img src="{% static 'images/cat-serums.jpg' %}" alt="Сыворотки">
+          <div>
+            <span>Уход</span>
+            <h3>Как подобрать сыворотку для сияния кожи?</h3>
+          </div>
+        </a>
+
+        <a href="{% url 'tips' %}" class="beauty-blog-card">
+          <img src="{% static 'images/cat-cleaning.jpg' %}" alt="Очищение">
+          <div>
+            <span>Очищение</span>
+            <h3>Почему важно очищать кожу каждый день?</h3>
+          </div>
+        </a>
+
+        <a href="{% url 'tips' %}" class="beauty-blog-card">
+          <img src="{% static 'images/cat-spf.jpg' %}" alt="SPF">
+          <div>
+            <span>SPF</span>
+            <h3>SPF нужен не только летом</h3>
+          </div>
+        </a>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== QUIZ BANNER ON HOME ===== -->
+  <section class="home-quiz-banner">
+    <div class="gc-shell">
+
+      <a href="{% url 'tips' %}#skinQuiz" class="home-quiz-card">
+        <img src="{% static 'images/tips-hero.jpg' %}" alt="Skin Quiz">
+
+        <div class="home-quiz-overlay"></div>
+
+        <div class="home-quiz-content">
+          <span>GlowCare journal</span>
+
+          <h2>
+            Skin care <br>
+            guide
+          </h2>
+
+          <p>
+            Короткий тест поможет определить тип кожи и подобрать базовый уход.
+          </p>
+
+          <div class="home-quiz-btn">Пройти тест</div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+</main>
+
+<style>
+/* ===== MAIN PAGE ===== */
+
+.gc-home-new {
+  background: #ffffff;
+  color: #111111;
+}
+
+.gc-home-new .gc-shell {
+  max-width: 1380px;
+  width: calc(100% - 96px);
+  margin: 0 auto;
+}
+
+/* ===== BIG HERO ===== */
+
+.beauty-hero {
+  padding: 28px 0 28px;
+  background: #ffffff;
+}
+
+.beauty-hero-card {
+  position: relative;
+  min-height: 560px;
+  overflow: hidden;
+  display: block;
+  color: #ffffff;
+  text-decoration: none;
+  background: #eeeeee;
+}
+
+.beauty-hero-img {
+  width: 100%;
+  height: 560px;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  transition: 0.45s ease;
+}
+
+.beauty-hero-card:hover .beauty-hero-img {
+  transform: scale(1.035);
+}
+
+.beauty-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,0.48) 0%, rgba(0,0,0,0.20) 45%, rgba(0,0,0,0.04) 100%),
+    linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.20));
+}
+
+.beauty-hero-content {
+  position: absolute;
+  left: 72px;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 690px;
+  z-index: 3;
+}
+
+.beauty-hero-label {
+  display: inline-block;
+  margin-bottom: 28px;
+  color: rgba(255,255,255,0.85);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.beauty-hero-content h1 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(48px, 6vw, 86px);
+  font-weight: 500;
+  line-height: 0.92;
+  letter-spacing: -0.055em;
+  color: #ffffff;
+}
+
+.beauty-hero-content p {
+  max-width: 520px;
+  margin: 28px 0 0;
+  color: rgba(255,255,255,0.86);
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.beauty-hero-actions {
+  margin-top: 38px;
+}
+
+.beauty-main-btn {
+  min-width: 170px;
+  height: 52px;
+  padding: 0 28px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.75);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-style: italic;
+  font-family: Georgia, "Times New Roman", serif;
+  transition: 0.25s ease;
+}
+
+.beauty-hero-card:hover .beauty-main-btn {
+  background: #ffffff;
+  color: #111111;
+}
+
+/* ===== DEPARTMENTS ===== */
+
+.beauty-departments {
+  padding: 24px 0 30px;
+  background: #ffffff;
+}
+
+.department-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+
+.department-item {
+  width: 120px;
+  color: #111111;
+  text-decoration: none;
+  text-align: center;
+  transition: 0.25s ease;
+}
+
+.department-item:hover {
+  transform: translateY(-4px);
+}
+
+.department-img {
+  width: 98px;
+  height: 98px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid #e5e5e5;
+  background: #f4f4f2;
+}
+
+.department-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.department-item span {
+  display: block;
+  color: #555555;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* ===== SECTION HEAD ===== */
+
+.beauty-products-section,
+.beauty-blog-preview {
+  padding: 36px 0 58px;
+}
+
+.beauty-section-head {
+  margin-bottom: 28px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.beauty-section-head h2 {
+  margin: 0;
+  color: #111111;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 34px;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+}
+
+.beauty-section-head a {
+  color: #777777;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 0.06em;
+}
+
+.beauty-section-head a:hover {
+  color: #111111;
+}
+
+/* ===== HITS PRODUCT CAROUSEL ===== */
+
+.hits-carousel-section {
+  padding: 34px 0 58px !important;
+  overflow: hidden;
+}
+
+.hits-carousel-window {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 8px 0 18px;
+}
+
+.hits-carousel-window::before,
+.hits-carousel-window::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 90px;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.hits-carousel-window::before {
+  left: 0;
+  background: linear-gradient(90deg, #ffffff, transparent);
+}
+
+.hits-carousel-window::after {
+  right: 0;
+  background: linear-gradient(-90deg, #ffffff, transparent);
+}
+
+.hits-carousel-track {
+  display: flex;
+  gap: 22px;
+  width: max-content;
+  animation: hitsMove 18s linear infinite;
+}
+
+.hits-carousel-window:hover .hits-carousel-track {
+  animation-play-state: paused;
+}
+
+.hits-carousel-card {
+  flex: 0 0 260px;
+  background: #ffffff;
+  border: 1px solid #f0eeee;
+  overflow: hidden;
+  transition: 0.25s ease;
+}
+
+.hits-carousel-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.06);
+}
+
+.hits-carousel-img {
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f7f7f6;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.hits-carousel-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 18px;
+  transition: 0.35s ease;
+}
+
+.hits-carousel-card:hover .hits-carousel-img img {
+  transform: scale(1.055);
+}
+
+.hits-carousel-info {
+  padding: 15px 16px 17px;
+}
+
+.hits-carousel-info span {
+  display: block;
+  margin-bottom: 8px;
+  color: #999999;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.hits-carousel-info a {
+  min-height: 42px;
+  max-height: 44px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  color: #111111;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+.hits-carousel-info strong {
+  display: block;
+  margin-top: 12px;
+  color: #111111;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+@keyframes hitsMove {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.beauty-empty-img {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: #999999;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ===== BLOG ===== */
+
+.beauty-blog-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 22px;
+}
+
+.beauty-blog-card {
+  position: relative;
+  min-height: 360px;
+  overflow: hidden;
+  color: #ffffff;
+  text-decoration: none;
+  background: #f4f4f2;
+}
+
+.beauty-blog-card.big {
+  min-height: 420px;
+}
+
+.beauty-blog-card img {
+  width: 100%;
+  height: 100%;
+  min-height: 360px;
+  object-fit: cover;
+  display: block;
+  transition: 0.35s ease;
+}
+
+.beauty-blog-card.big img {
+  min-height: 420px;
+}
+
+.beauty-blog-card:hover img {
+  transform: scale(1.04);
+}
+
+.beauty-blog-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 35%, rgba(0,0,0,0.52) 100%);
+}
+
+.beauty-blog-card div {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 24px;
+  z-index: 2;
+}
+
+.beauty-blog-card span {
+  display: block;
+  margin-bottom: 8px;
+  color: rgba(255,255,255,0.78);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.beauty-blog-card h3 {
+  margin: 0;
+  color: #ffffff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+/* ===== HOME QUIZ BANNER — NOT TRANSPARENT ===== */
+
+.home-quiz-banner {
+  padding: 34px 0 70px;
+  background: #ffffff;
+}
+
+.home-quiz-card {
+  position: relative;
+  min-height: 520px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: #f5f5f3;
+  color: #111111;
+  text-decoration: none;
+}
+
+.home-quiz-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  object-fit: cover;
+  object-position: center 38%;
+  transition: 0.45s ease;
+}
+
+.home-quiz-card:hover img {
+  transform: scale(1.025);
+}
+
+.home-quiz-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,0.90) 0%,
+      rgba(255,255,255,0.58) 34%,
+      rgba(255,255,255,0.18) 64%,
+      rgba(255,255,255,0.00) 100%
+    );
+}
+
+.home-quiz-content {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+  padding: 78px 70px;
+}
+
+.home-quiz-content span {
+  display: block;
+  margin-bottom: 18px;
+  color: #111111;
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+.home-quiz-content h2 {
+  margin: 0;
+  color: #111111;
+  font-family: "Didot", "Bodoni 72", "Bodoni MT", "Playfair Display", Georgia, serif;
+  font-size: clamp(58px, 7.2vw, 104px);
+  font-weight: 400;
+  line-height: 0.88;
+  letter-spacing: -0.07em;
+  text-transform: uppercase;
+}
+
+.home-quiz-content p {
+  max-width: 390px;
+  margin: 26px 0 0;
+  color: #222222;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.home-quiz-btn {
+  width: fit-content;
+  min-width: 150px;
+  height: 46px;
+  margin-top: 32px;
+  padding: 0 24px;
+  border: 1px solid #111111;
+  background: rgba(255,255,255,0.68);
+  color: #111111;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+  transition: 0.25s ease;
+}
+
+.home-quiz-card:hover .home-quiz-btn {
+  background: #111111;
+  color: #ffffff;
+}
+
+/* ===== OLD BLOCKS OFF ===== */
+
+.gc-home-hero,
+.gc-promo-banner,
+.gc-home-categories,
+.gc-home-tips {
+  display: none !important;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 1200px) {
+  .beauty-blog-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .beauty-blog-card.big {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 900px) {
+  .gc-home-new .gc-shell {
+    width: calc(100% - 28px);
+  }
+
+  .beauty-hero-card {
+    min-height: 500px;
+  }
+
+  .beauty-hero-img {
+    height: 500px;
+  }
+
+  .beauty-hero-content {
+    left: 32px;
+    right: 32px;
+  }
+
+  .hits-carousel-card {
+    flex-basis: 220px;
+  }
+
+  .hits-carousel-img {
+    height: 230px;
+  }
+
+  .beauty-blog-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 800px) {
+  .home-quiz-card {
+    min-height: 430px;
+  }
+
+  .home-quiz-content {
+    padding: 52px 30px;
+  }
+
+  .home-quiz-content h2 {
+    font-size: 52px;
+  }
+
+  .home-quiz-content p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 560px) {
+  .beauty-hero-card {
+    min-height: 460px;
+  }
+
+  .beauty-hero-img {
+    height: 460px;
+  }
+
+  .beauty-hero-content h1 {
+    font-size: 42px;
+  }
+
+  .beauty-hero-content p {
+    font-size: 14px;
+  }
+
+  .department-item {
+    width: 92px;
+  }
+
+  .department-img {
+    width: 78px;
+    height: 78px;
+  }
+
+  .department-item span {
+    font-size: 10px;
+  }
+
+  .beauty-section-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .hits-carousel-track {
+    gap: 16px;
+  }
+
+  .hits-carousel-card {
+    flex-basis: 190px;
+  }
+
+  .hits-carousel-img {
+    height: 210px;
+  }
+
+  .hits-carousel-info a {
+    font-size: 13px;
+  }
+
+  .home-quiz-card {
+    min-height: 390px;
+  }
+
+  .home-quiz-content h2 {
+    font-size: 42px;
+  }
+}
+
+
+/* ===== FIX: чистые карточки товаров без рамок ===== */
+
+.hits-carousel-card {
+  background: #ffffff !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.hits-carousel-card:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: none !important;
+}
+
+.hits-carousel-img {
+  background: #fafafa !important;
+  border: none !important;
+}
+
+.hits-carousel-img img {
+  padding: 18px !important;
+}
+
+.hits-carousel-info {
+  padding: 16px 0 0 !important;
+  background: #ffffff !important;
+}
+
+.hits-carousel-info span {
+  color: #9a9a9a !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+}
+
+.hits-carousel-info a {
+  color: #111111 !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 1.45 !important;
+}
+
+.hits-carousel-info strong {
+  margin-top: 12px !important;
+  color: #111111 !important;
+  font-size: 17px !important;
+  font-weight: 600 !important;
+}
+
+
+
+
+</style>
+
+{% endblock %}
