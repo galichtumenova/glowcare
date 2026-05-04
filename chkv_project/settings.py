@@ -10,15 +10,20 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+# ===== SECURITY =====
+
 SECRET_KEY = os.environ.get(
     'SECRET_KEY',
     'django-insecure-cm#5$u+arsermps2)5tjcar3n77sx50pe430h=0c#@)vivlx!%'
 )
 
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ['*']
 
+
+# ===== APPS =====
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -35,6 +40,8 @@ INSTALLED_APPS = [
 ]
 
 
+# ===== MIDDLEWARE =====
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -47,6 +54,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
+# ===== URLS / WSGI =====
 
 ROOT_URLCONF = 'chkv_project.urls'
 
@@ -66,9 +75,10 @@ TEMPLATES = [
     },
 ]
 
-
 WSGI_APPLICATION = 'chkv_project.wsgi.application'
 
+
+# ===== DATABASE =====
 
 DATABASES = {
     'default': dj_database_url.config(
@@ -77,6 +87,8 @@ DATABASES = {
     )
 }
 
+
+# ===== PASSWORD VALIDATION =====
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -94,6 +106,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# ===== LANGUAGE / TIME =====
+
 LANGUAGE_CODE = 'ru-ru'
 TIME_ZONE = 'Asia/Almaty'
 
@@ -101,23 +115,40 @@ USE_I18N = True
 USE_TZ = True
 
 
+# ===== STATIC FILES =====
+
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+
+STATICFILES_DIRS = []
+
+if os.path.exists(BASE_DIR / 'static'):
+    STATICFILES_DIRS.append(BASE_DIR / 'static')
+
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+
+# ===== MEDIA FILES =====
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+
+# ===== CUSTOM USER =====
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
+
+# ===== DEFAULT FIELD =====
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL')
+# ===== CLOUDINARY =====
+
+CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL', '')
 
 
 STORAGES = {
@@ -130,7 +161,12 @@ STORAGES = {
 }
 
 
+# ===== TELEGRAM ORDER =====
+
 TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN', '')
 TELEGRAM_CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID', '')
+
+
+# ===== GEMINI AI =====
 
 GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY', '')
