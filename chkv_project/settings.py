@@ -124,6 +124,9 @@ if os.path.exists(BASE_DIR / 'static'):
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
 
 # ===== MEDIA / CLOUDINARY =====
 
