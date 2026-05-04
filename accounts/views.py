@@ -732,33 +732,4 @@ def checkout_order(request):
             "message": f"Ошибка: {e}"
         })
     
-    from django.http import HttpResponse
-from django.contrib.auth import get_user_model
-import traceback
-
-
-def create_superuser_once(request):
-    try:
-        User = get_user_model()
-
-        username = "admin"
-        email = "admin@mail.com"
-        password = "Admin12345"
-
-        if User.objects.filter(username=username).exists():
-            return HttpResponse("Superuser already exists")
-
-        user = User.objects.create_superuser(
-            username=username,
-            email=email,
-            password=password
-        )
-
-        return HttpResponse("Superuser created successfully")
-
-    except Exception as e:
-        error_text = traceback.format_exc()
-        return HttpResponse(
-            f"<h2>Error happened:</h2><pre>{error_text}</pre>",
-            content_type="text/html"
-        )
+    
