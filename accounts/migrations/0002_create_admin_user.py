@@ -1,4 +1,5 @@
 from django.db import migrations
+from django.contrib.auth.hashers import make_password
 
 
 def create_admin_user(apps, schema_editor):
@@ -9,15 +10,14 @@ def create_admin_user(apps, schema_editor):
     password = "Admin12345"
 
     if not User.objects.filter(username=username).exists():
-        user = User(
+        User.objects.create(
             username=username,
             email=email,
+            password=make_password(password),
             is_staff=True,
             is_superuser=True,
             is_active=True,
         )
-        user.set_password(password)
-        user.save()
 
 
 def delete_admin_user(apps, schema_editor):
