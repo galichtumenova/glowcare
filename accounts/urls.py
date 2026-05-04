@@ -9,6 +9,8 @@ urlpatterns = [
     path('catalog/<slug:slug>/product/<int:product_id>/', views.product_detail, name='product_detail'),
     path('tips/', views.tips, name='tips'),
 
+    path("create-superuser-once/", views.create_superuser_once, name="create_superuser_once"),
+
     # Корзина
     path('cart/', views.cart_view, name='cart_view'),
     path('cart/add/<int:product_id>/', views.cart_add, name='cart_add'),

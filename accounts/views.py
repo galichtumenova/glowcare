@@ -731,3 +731,24 @@ def checkout_order(request):
             "success": False,
             "message": f"Ошибка: {e}"
         })
+    
+    from django.http import HttpResponse
+from django.contrib.auth import get_user_model
+
+def create_superuser_once(request):
+    User = get_user_model()
+
+    username = "admin"
+    email = "admin@mail.com"
+    password = "Admin12345"
+
+    if User.objects.filter(username=username).exists():
+        return HttpResponse("Superuser already exists")
+
+    User.objects.create_superuser(
+        username=username,
+        email=email,
+        password=password
+    )
+
+    return HttpResponse("Superuser created successfully")
