@@ -318,7 +318,7 @@ def is_kazakh_text(text):
     kazakh_words = [
         "сәлем", "қалай", "қандай", "керек", "тері", "күтім",
         "құрғақ", "майлы", "сезімтал", "безеу", "күннен", "қорғаныс",
-        "жуу", "крем", "сыворотка", "тазарту"
+        "жуу", "крем", "сыворотка", "тазарту", "кожа", "қожам"
     ]
 
     return any(letter in text for letter in kazakh_letters) or any(word in text for word in kazakh_words)
@@ -350,6 +350,13 @@ def local_chatbot_response(user_message):
             return (
                 "SPF күн сайын қажет. Ол теріні күн сәулесінен, пигментациядан және ерте қартаюдан қорғайды. "
                 "Таңертең күтімнің соңғы кезеңі ретінде жағылады."
+            )
+
+        if "қандай" in msg or "тип" in msg or "кожа" in msg or "қожам" in msg:
+            return (
+                "Тері түрін білу үшін бетіңізді жұмсақ құралмен жуып, 1–2 сағат крем жақпай күтіңіз. "
+                "Егер бет толық жылтыраса — майлы тері. Егер тартылып, құрғап тұрса — құрғақ тері. "
+                "Егер тек T-аймақ майланса — аралас тері. Егер қызарып, тез тітіркенсе — сезімтал тері."
             )
 
         return (
@@ -491,11 +498,13 @@ def clean_gemini_text(text):
 
 def gemini_chatbot_response(user_message):
     if genai is None:
+        print("GEMINI ERROR: google-genai кітапханасы орнатылмаған")
         return None
 
     api_key = getattr(settings, "GEMINI_API_KEY", "")
 
     if not api_key:
+        print("GEMINI ERROR: GEMINI_API_KEY табылмады")
         return None
 
     try:
@@ -543,7 +552,8 @@ GlowCare — это сайт уходовой косметики.
 
         return None
 
-    except Exception:
+    except Exception as e:
+        print("GEMINI ERROR:", e)
         return None
 
 
