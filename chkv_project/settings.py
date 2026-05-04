@@ -130,7 +130,7 @@ STORAGES = {
 }
 
 
-TELEGRAM_BOT_TOKEN = os.environ.get('8744970987:AAETexig9yGNgj2U1u9g19sbWzqgjlmS8W4', '')
-TELEGRAM_CHAT_ID = os.environ.get('6864090720', '')
+TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN', '')
+TELEGRAM_CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID', '')
 
-GEMINI_API_KEY = os.environ.get("AIzaSyCCeRc9cu6bk1gqA9w3QL9vTHSUsRzbyx0", "")
+GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY', '')
