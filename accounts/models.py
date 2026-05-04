@@ -23,6 +23,10 @@ class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(unique=True)
 
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
+
     def __str__(self):
         return self.name
 
@@ -38,6 +42,8 @@ class SubCategory(models.Model):
 
     class Meta:
         unique_together = ('category', 'slug')
+        verbose_name = 'Subcategory'
+        verbose_name_plural = 'Subcategories'
 
     def __str__(self):
         return f'{self.category.name} → {self.name}'
@@ -57,18 +63,24 @@ class Product(models.Model):
         related_name='products'
     )
     name = models.CharField(max_length=200)
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+
     image = models.ImageField(
         upload_to='products/',
         blank=True,
         null=True
     )
+
     kaspi_url = models.URLField(
         blank=True,
         null=True,
         verbose_name='Kaspi ссылка'
     )
+
+    class Meta:
+        verbose_name = 'Product'
+        verbose_name_plural = 'Products'
 
     def __str__(self):
         return self.name
