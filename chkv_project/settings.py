@@ -133,4 +133,4 @@ STORAGES = {
 TELEGRAM_BOT_TOKEN = os.environ.get('8744970987:AAETexig9yGNgj2U1u9g19sbWzqgjlmS8W4', '')
 TELEGRAM_CHAT_ID = os.environ.get('6864090720', '')
 
-GEMINI_API_KEY = os.environ.get("AIzaSyCXeT8_1EuWoDTr0iZptcxFZO8WqGM34es", "")
+GEMINI_API_KEY = os.environ.get("AIzaSyCCeRc9cu6bk1gqA9w3QL9vTHSUsRzbyx0", "")
